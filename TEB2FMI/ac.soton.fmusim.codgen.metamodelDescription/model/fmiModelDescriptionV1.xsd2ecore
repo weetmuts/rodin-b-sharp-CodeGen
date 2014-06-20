@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="fmiModelDescription2.xsd#/ fmiBaseUnit.xsd#/ fmiType.xsd#/ fmiScalarVariable.xsd#/"
+    outputs="FmiModelDescriptionV1.ecore#/" topToBottom="true">
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//normalizedString;XSDSimpleTypeDefinition=28"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//NormalizedString"/>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=12"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+  <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/DisplayUnitDefinition;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//DisplayUnitDefinitionType">
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/DisplayUnitDefinition;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//DisplayUnitDefinitionType/displayUnit"/>
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/DisplayUnitDefinition;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//DisplayUnitDefinitionType/gain"/>
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/DisplayUnitDefinition;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//DisplayUnitDefinitionType/offset"/>
+  </nested>
+  <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition" outputs="FmiModelDescriptionV1.ecore#//FmiBaseUnit">
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//FmiBaseUnit/group"/>
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//FmiBaseUnit/displayUnitDefinition"/>
+    <nested inputs="fmiBaseUnit.xsd#//fmiBaseUnit;XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//FmiBaseUnit/unit"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/UnitDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//UnitDefinitionsType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/UnitDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//UnitDefinitionsType/group"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/UnitDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//UnitDefinitionsType/baseUnit"/>
+  </nested>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=10"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+  <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//RealTypeType">
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/displayUnit"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/max"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/min"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=6"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/nominal"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/quantity"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/relativeQuantity"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/RealType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//RealTypeType/unit"/>
+  </nested>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=44"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/IntegerType;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//IntegerTypeType">
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/IntegerType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerTypeType/max"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/IntegerType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerTypeType/min"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/IntegerType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerTypeType/quantity"/>
+  </nested>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//anyType;XSDComplexTypeDefinition=28"
+      outputs="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=9"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Item;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//ItemType">
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Item;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//ItemType/description"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Item;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//ItemType/name"/>
+  </nested>
+  <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType">
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType/group"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType/item"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType/max"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType/min"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/EnumerationType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationTypeType/quantity"/>
+  </nested>
+  <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition" outputs="FmiModelDescriptionV1.ecore#//FmiType">
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/realType"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/integerType"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/booleanType"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/stringType"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/enumerationType"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/description"/>
+    <nested inputs="fmiType.xsd#//fmiType;XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//FmiType/name"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/TypeDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//TypeDefinitionsType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/TypeDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//TypeDefinitionsType/group"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/TypeDefinitions;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//TypeDefinitionsType/type"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2/DefaultExperiment;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//DefaultExperimentType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2/DefaultExperiment;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//DefaultExperimentType/startTime"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2/DefaultExperiment;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//DefaultExperimentType/stopTime"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2/DefaultExperiment;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//DefaultExperimentType/tolerance"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Annotation;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//AnnotationType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Annotation;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//AnnotationType/name"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Annotation;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//AnnotationType/value"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//ToolType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//ToolType/group"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//ToolType/annotation"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/Tool;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//ToolType/name"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//VendorAnnotationsType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//VendorAnnotationsType/group"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3/VendorAnnotations;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//VendorAnnotationsType/tool"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//RealType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/declaredType"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/displayUnit"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=9"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/fixed"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=6"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/max"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/min"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=7"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/nominal"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/quantity"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/relativeQuantity"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=8"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/start"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle/Real;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//RealType/unit"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//IntegerType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/declaredType"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/fixed"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/max"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/min"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/quantity"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1/Integer;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//IntegerType/start"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2/Boolean;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//BooleanType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2/Boolean;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//BooleanType/declaredType"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2/Boolean;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//BooleanType/fixed"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2/Boolean;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//BooleanType/start"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3/String;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//StringType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3/String;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//StringType/declaredType"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3/String;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//StringType/fixed"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3/String;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//StringType/start"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//EnumerationType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/declaredType"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/fixed"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/max"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/min"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/quantity"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4/Enumeration;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//EnumerationType/start"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/DirectDependency;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//DirectDependencyType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/DirectDependency;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//DirectDependencyType/group"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1/DirectDependency;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//DirectDependencyType/name"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=5/alias;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//AliasType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=5/alias;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="FmiModelDescriptionV1.ecore#//AliasType/noAlias"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=5/alias;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="FmiModelDescriptionV1.ecore#//AliasType/alias"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=5/alias;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="FmiModelDescriptionV1.ecore#//AliasType/negatedAlias"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4/causality;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//CausalityType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4/causality;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="FmiModelDescriptionV1.ecore#//CausalityType/input"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4/causality;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="FmiModelDescriptionV1.ecore#//CausalityType/output"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4/causality;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="FmiModelDescriptionV1.ecore#//CausalityType/internal"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4/causality;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
+        outputs="FmiModelDescriptionV1.ecore#//CausalityType/none"/>
+  </nested>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//unsignedInt;XSDSimpleTypeDefinition=49"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//UnsignedInt"/>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3/variability;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//VariabilityType">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3/variability;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="FmiModelDescriptionV1.ecore#//VariabilityType/constant"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3/variability;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="FmiModelDescriptionV1.ecore#//VariabilityType/parameter"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3/variability;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="FmiModelDescriptionV1.ecore#//VariabilityType/discrete"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3/variability;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
+        outputs="FmiModelDescriptionV1.ecore#//VariabilityType/continuous"/>
+  </nested>
+  <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable">
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/real"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/integer"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/boolean"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/string"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/enumeration"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/directDependency"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/alias"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/causality"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/description"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/name"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/valueReference"/>
+    <nested inputs="fmiScalarVariable.xsd#//fmiScalarVariable;XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//FmiScalarVariable/variability"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=4/ModelVariables;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//ModelVariablesType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=4/ModelVariables;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//ModelVariablesType/group"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=4/ModelVariables;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//ModelVariablesType/scalarVariable"/>
+  </nested>
+  <nested inputs="bundleentry://503.fwk508820499/cache/www.w3.org/2001/XMLSchema.xsd#//dateTime;XSDSimpleTypeDefinition=15"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//DateTime"/>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=9/variableNamingConvention;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//VariableNamingConventionType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=9/variableNamingConvention;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="FmiModelDescriptionV1.ecore#//VariableNamingConventionType/flat"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=9/variableNamingConvention;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="FmiModelDescriptionV1.ecore#//VariableNamingConventionType/structured"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType">
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/unitDefinitions"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/typeDefinitions"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/defaultExperiment"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/vendorAnnotations"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/modelVariables"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=5"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/author"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=4"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/description"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/fmiVersion"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=8"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/generationDateAndTime"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=7"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/generationTool"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=3"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/guid"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/modelIdentifier"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/modelName"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=10"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/numberOfContinuousStates"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=11"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/numberOfEventIndicators"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=9"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/variableNamingConvention"/>
+    <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse=6"
+        outputs="FmiModelDescriptionV1.ecore#//FmiModelDescriptionType/version"/>
+  </nested>
+  <nested inputs="fmiModelDescription2.xsd#//fmiModelDescription;XSDElementDeclaration"
+      outputs="FmiModelDescriptionV1.ecore#//DocumentRoot/fmiModelDescription"/>
+</xsd2ecore:XSD2EcoreMappingRoot>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eventb.compositeControlMetamodel.edit;singleton:=true
+Bundle-Version: 0.1.3.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: compositeControl.provider.CompositeControlEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: compositeControl.provider
+Require-Bundle: org.eventb.compositeControlMetamodel;visibility:=reexport,
+ org.eclipse.core.runtime;bundle-version="3.5.0",
+ ac.soton.compositionmodel.core;bundle-version="0.0.1"
+Bundle-ActivationPolicy: lazy

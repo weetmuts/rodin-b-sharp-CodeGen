@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eventb.codegen.templates.generator">
+      <templateGenerator
+            GeneratorClass="org.eventb.codegen.template.extensions.VariableDeclarationsGenerator"
+            tag="variableDeclarations">
+      </templateGenerator>
+      <templateGenerator
+            GeneratorClass="org.eventb.codegen.template.extensions.InitialisationsListGenerator"
+            tag="initialisationsList">
+      </templateGenerator>
+      <templateGenerator
+            GeneratorClass="org.eventb.codegen.template.extensions.SubroutineListGenerator"
+            tag="subroutineList">
+      </templateGenerator>
+      <templateGenerator
+            GeneratorClass="org.eventb.codegen.template.extensions.AddFunctionToHeaderUtil"
+            tag="addToHeader">
+      </templateGenerator>
+   </extension>
+   <extension
+         point="org.eventb.codegen.templates.tag">
+      <tagCommentCharacters
+            tagCommentCharacters="//##">
+      </tagCommentCharacters>
+   </extension>
+
+</plugin>

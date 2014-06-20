@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="file:/home/andy/Desktop/FMImodelXSDs/fmiAnnotation.xsd"
+            class="FmiModel.FmiModelPackage"
+            genModel="model/fmiMetamodelDescription.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="fmimodel"
+            class="FmiModel.util.FmiModelResourceFactoryImpl"/>
+   </extension>
+
+</plugin>

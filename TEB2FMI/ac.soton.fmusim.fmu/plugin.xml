@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="ac.soton.fmusim.fmu.contribution1">
+         <menu
+               label="FMU"
+               path="additions"
+               id="ac.soton.fmusim.fmu.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Package FMU"
+               class="ac.soton.fmusim.fmu.popup.actions.PackageFMU"
+               menubarPath="ac.soton.fmusim.fmu.menu1/group1"
+               enablesFor="1"
+               id="ac.soton.fmusim.fmu.packageFMU">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

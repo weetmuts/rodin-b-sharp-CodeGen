@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="FmiModelV1.presentation.FmiModelV1ModelWizardID"
+            name="%_UI_FmiModelV1ModelWizard_label"
+            class="FmiModelV1.presentation.FmiModelV1ModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/FmiModelV1ModelFile.gif">
+         <description>%_UI_FmiModelV1ModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="FmiModelV1.presentation.FmiModelV1EditorID"
+            name="%_UI_FmiModelV1Editor_label"
+            icon="icons/full/obj16/FmiModelV1ModelFile.gif"
+            extensions="fmimodelv1"
+            class="FmiModelV1.presentation.FmiModelV1Editor"
+            contributorClass="FmiModelV1.presentation.FmiModelV1ActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

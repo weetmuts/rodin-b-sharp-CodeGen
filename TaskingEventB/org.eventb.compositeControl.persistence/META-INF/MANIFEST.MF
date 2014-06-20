@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Composite Control Plugin
+Bundle-SymbolicName: org.eventb.compositeControl.persistence;singleton:=true
+Bundle-Version: 0.1.1.qualifier
+Bundle-Activator: org.eventb.compositecontrol.persistence.CompositeControlPersistencePlugin
+Bundle-Vendor: University of Southampton
+Require-Bundle: org.eclipse.core.runtime,
+ org.eventb.compositeControlMetamodel;bundle-version="0.0.1",
+ org.eventb.emf.persistence;bundle-version="2.2.1",
+ org.eventb.taskingMetamodel;bundle-version="0.1.1",
+ org.eclipse.emf.transaction;bundle-version="1.4.0",
+ org.eventb.tasking.persistence;bundle-version="0.0.1",
+ org.eventb.codegen.TaskbodyBuilder;bundle-version="0.0.1"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eventb.compositecontrol.persistence.synchroniser,
+ org.eventb.compositecontrol.persistence

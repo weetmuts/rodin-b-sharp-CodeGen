@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FMU
+Bundle-SymbolicName: ac.soton.fmusim.fmu; singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: ac.soton.fmusim.fmu.FMUPackagerPlugin
+Bundle-Vendor: University of Southampton
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ ac.soton.fmusim.codegen;bundle-version="0.0.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
