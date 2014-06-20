@@ -57,7 +57,7 @@ public class SeqSynchroniser extends EMFToTaskBodySynchroniser  {
 	
 	
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {				
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {				
 //		Reset feature type to default
 		
 		

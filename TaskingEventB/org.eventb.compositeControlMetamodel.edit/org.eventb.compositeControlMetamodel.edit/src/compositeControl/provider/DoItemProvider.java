@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package compositeControl.provider;
 
@@ -28,6 +24,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eventb.emf.core.CorePackage;
 
 /**
  * This is the item provider adapter for a {@link compositeControl.Do} object.
@@ -103,7 +101,7 @@ public class DoItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(CompositeControlPackage.Literals.DO__EVENTS);
+			childrenFeatures.add(CompositeControlPackage.Literals.DO__TASK_BODY);
 			childrenFeatures.add(CompositeControlPackage.Literals.DO__FINALLY);
 		}
 		return childrenFeatures;
@@ -141,7 +139,7 @@ public class DoItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Do)object).getLabel();
+		String label = ((Do)object).getReference();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Do_type") :
 			getString("_UI_Do_type") + " " + label;
@@ -162,7 +160,7 @@ public class DoItemProvider
 			case CompositeControlPackage.DO__LABEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case CompositeControlPackage.DO__EVENTS:
+			case CompositeControlPackage.DO__TASK_BODY:
 			case CompositeControlPackage.DO__FINALLY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -183,13 +181,13 @@ public class DoItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(CompositeControlPackage.Literals.DO__EVENTS,
-				 CompositeControlFactory.eINSTANCE.createSynchEvents()));
+				(CompositeControlPackage.Literals.DO__TASK_BODY,
+				 CompositeControlFactory.eINSTANCE.createEventWrapper()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(CompositeControlPackage.Literals.DO__FINALLY,
-				 CompositeControlFactory.eINSTANCE.createSynchEvents()));
+				 CompositeControlFactory.eINSTANCE.createEventWrapper()));
 	}
 
 	/**
@@ -204,7 +202,8 @@ public class DoItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == CompositeControlPackage.Literals.DO__EVENTS ||
+			childFeature == CorePackage.Literals.EVENT_BELEMENT__EXTENSIONS ||
+			childFeature == CompositeControlPackage.Literals.DO__TASK_BODY ||
 			childFeature == CompositeControlPackage.Literals.DO__FINALLY;
 
 		if (qualify) {

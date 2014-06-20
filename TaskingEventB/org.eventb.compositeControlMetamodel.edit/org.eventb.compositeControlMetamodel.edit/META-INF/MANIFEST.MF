@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eventb.compositeControlMetamodel.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: compositeControl.provider.CompositeControlEditPlugin$Implementation
-Bundle-Vendor: University of Southampton
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: compositeControl.provider

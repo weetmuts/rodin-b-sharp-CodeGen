@@ -46,7 +46,7 @@ public class Environ_MachineSynchroniser extends MachineTypeSynchroniser  {
 //		return TaskingFactory.eINSTANCE.createEnviron_Machine();
 //	}
 
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		Environ_Machine eventBElement = (Environ_Machine) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IEnviron_Machine)
@@ -60,7 +60,7 @@ public class Environ_MachineSynchroniser extends MachineTypeSynchroniser  {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IEnviron_Machine && emfElement instanceof Environ_Machine) 

@@ -13,14 +13,14 @@ public class FMU_MachineSynchroniser extends MachineTypeSynchroniser{
 
 	@Override
 	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement,
-			EventBElement emfParent, IProgressMonitor monitor) throws CoreException {
+			EventBElement emfParent, IProgressMonitor monitor) throws RodinDBException {
 		FMU_Machine eventBElement = (FMU_Machine) super.load(rodinElement, emfParent, monitor);
 		return eventBElement;
 	}
 
 	@Override
 	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent,
-			IProgressMonitor monitor) throws CoreException {
+			IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		return rodinElement;
 	}

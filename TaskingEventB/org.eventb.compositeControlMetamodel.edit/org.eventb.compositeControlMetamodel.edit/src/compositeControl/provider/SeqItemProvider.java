@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package compositeControl.provider;
 
@@ -26,6 +22,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eventb.emf.core.CorePackage;
 
 /**
  * This is the item provider adapter for a {@link compositeControl.Seq} object.
@@ -116,7 +114,10 @@ public class SeqItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Seq_type");
+		String label = ((Seq)object).getReference();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Seq_type") :
+			getString("_UI_Seq_type") + " " + label;
 	}
 
 	/**
@@ -223,6 +224,7 @@ public class SeqItemProvider
 		Object childObject = child;
 
 		boolean qualify =
+			childFeature == CorePackage.Literals.EVENT_BELEMENT__EXTENSIONS ||
 			childFeature == CompositeControlPackage.Literals.SEQ__LEFT_BRANCH ||
 			childFeature == CompositeControlPackage.Literals.SEQ__RIGHT_BRANCH;
 

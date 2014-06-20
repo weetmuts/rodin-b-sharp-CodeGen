@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package compositeControl.provider;
 
@@ -26,6 +22,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eventb.emf.core.CorePackage;
 
 /**
  * This is the item provider adapter for a {@link compositeControl.SubBranch} object.
@@ -78,7 +76,7 @@ public class SubBranchItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(CompositeControlPackage.Literals.SUB_BRANCH__EVENTS);
+			childrenFeatures.add(CompositeControlPackage.Literals.SUB_BRANCH__EVENT_WRAPPER);
 			childrenFeatures.add(CompositeControlPackage.Literals.SUB_BRANCH__SUB_BRANCH);
 		}
 		return childrenFeatures;
@@ -116,7 +114,10 @@ public class SubBranchItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_SubBranch_type");
+		String label = ((SubBranch)object).getReference();
+		return label == null || label.length() == 0 ?
+			getString("_UI_SubBranch_type") :
+			getString("_UI_SubBranch_type") + " " + label;
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class SubBranchItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(SubBranch.class)) {
-			case CompositeControlPackage.SUB_BRANCH__EVENTS:
+			case CompositeControlPackage.SUB_BRANCH__EVENT_WRAPPER:
 			case CompositeControlPackage.SUB_BRANCH__SUB_BRANCH:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -152,13 +153,37 @@ public class SubBranchItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(CompositeControlPackage.Literals.SUB_BRANCH__EVENTS,
-				 CompositeControlFactory.eINSTANCE.createSynchEvents()));
+				(CompositeControlPackage.Literals.SUB_BRANCH__EVENT_WRAPPER,
+				 CompositeControlFactory.eINSTANCE.createEventWrapper()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(CompositeControlPackage.Literals.SUB_BRANCH__SUB_BRANCH,
 				 CompositeControlFactory.eINSTANCE.createSubBranch()));
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == CorePackage.Literals.EVENT_BELEMENT__EXTENSIONS ||
+			childFeature == CompositeControlPackage.Literals.SUB_BRANCH__SUB_BRANCH ||
+			childFeature == CompositeControlPackage.Literals.SUB_BRANCH__EVENT_WRAPPER;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

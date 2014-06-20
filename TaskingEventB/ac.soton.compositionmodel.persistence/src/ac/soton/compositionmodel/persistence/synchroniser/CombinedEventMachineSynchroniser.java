@@ -47,7 +47,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	
 	
 	
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
 		// create EMF node
 		CombinedEventMachine eventBElement = (CombinedEventMachine) super.load(rodinElement, emfParent, monitor);
 		if (rodinElement instanceof ICombinedEventMachine) {
@@ -101,7 +101,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	}
 	
 	
-	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws RodinDBException {
 
 		// create Rodin element
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);

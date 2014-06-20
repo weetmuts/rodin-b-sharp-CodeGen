@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package compositeControl.provider;
 
@@ -63,6 +59,7 @@ public class OutputItemProvider
 
 			addTextPropertyDescriptor(object);
 			addElementPropertyDescriptor(object);
+			addVariableNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -112,6 +109,28 @@ public class OutputItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Variable Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addVariableNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Output_variableName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Output_variableName_feature", "_UI_Output_type"),
+				 CompositeControlPackage.Literals.OUTPUT__VARIABLE_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns Output.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -130,7 +149,7 @@ public class OutputItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Output)object).getText();
+		String label = ((Output)object).getVariableName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Output_type") :
 			getString("_UI_Output_type") + " " + label;
@@ -149,6 +168,7 @@ public class OutputItemProvider
 
 		switch (notification.getFeatureID(Output.class)) {
 			case CompositeControlPackage.OUTPUT__TEXT:
+			case CompositeControlPackage.OUTPUT__VARIABLE_NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

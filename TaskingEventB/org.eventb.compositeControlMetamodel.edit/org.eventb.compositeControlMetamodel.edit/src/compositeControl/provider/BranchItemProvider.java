@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package compositeControl.provider;
 
@@ -28,6 +24,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eventb.emf.core.CorePackage;
 
 /**
  * This is the item provider adapter for a {@link compositeControl.Branch} object.
@@ -103,7 +101,7 @@ public class BranchItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(CompositeControlPackage.Literals.BRANCH__EVENTS);
+			childrenFeatures.add(CompositeControlPackage.Literals.BRANCH__EVENT_WRAPPER);
 			childrenFeatures.add(CompositeControlPackage.Literals.BRANCH__SUB_BRANCH);
 			childrenFeatures.add(CompositeControlPackage.Literals.BRANCH__ALT);
 		}
@@ -142,7 +140,7 @@ public class BranchItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Branch)object).getLabel();
+		String label = ((Branch)object).getReference();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Branch_type") :
 			getString("_UI_Branch_type") + " " + label;
@@ -163,7 +161,7 @@ public class BranchItemProvider
 			case CompositeControlPackage.BRANCH__LABEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case CompositeControlPackage.BRANCH__EVENTS:
+			case CompositeControlPackage.BRANCH__EVENT_WRAPPER:
 			case CompositeControlPackage.BRANCH__SUB_BRANCH:
 			case CompositeControlPackage.BRANCH__ALT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
@@ -185,8 +183,8 @@ public class BranchItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(CompositeControlPackage.Literals.BRANCH__EVENTS,
-				 CompositeControlFactory.eINSTANCE.createSynchEvents()));
+				(CompositeControlPackage.Literals.BRANCH__EVENT_WRAPPER,
+				 CompositeControlFactory.eINSTANCE.createEventWrapper()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -196,7 +194,7 @@ public class BranchItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(CompositeControlPackage.Literals.BRANCH__ALT,
-				 CompositeControlFactory.eINSTANCE.createSynchEvents()));
+				 CompositeControlFactory.eINSTANCE.createEventWrapper()));
 	}
 
 	/**
@@ -211,7 +209,9 @@ public class BranchItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == CompositeControlPackage.Literals.BRANCH__EVENTS ||
+			childFeature == CorePackage.Literals.EVENT_BELEMENT__EXTENSIONS ||
+			childFeature == CompositeControlPackage.Literals.BRANCH__SUB_BRANCH ||
+			childFeature == CompositeControlPackage.Literals.BRANCH__EVENT_WRAPPER ||
 			childFeature == CompositeControlPackage.Literals.BRANCH__ALT;
 
 		if (qualify) {

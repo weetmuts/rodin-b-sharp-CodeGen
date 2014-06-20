@@ -63,10 +63,10 @@ public class CMInvariantSynchroniser extends InvariantSynchroniser {
 	 * Overloaded version of load. 
 	 * It will determine the parent class, set the internal feature ID representation, then continue 
 	 * with a normal load.
-	 * @throws CoreException 
+	 * @throws RodinDBException 
 	 */
 	@Override
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
 		
 		if (emfParent instanceof MachineImpl)
 			featureType = FEATURES_MACHINE;

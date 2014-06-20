@@ -27,7 +27,7 @@ public abstract class EMFToTaskBodySynchroniser extends AbstractSynchroniser {
 	 * Takes the EMF Do and produces a TaskBody rodin element with the proper contents.
 	 * This also overwrites any old style information - which is great, so long as it is loaded in correctly!
 	 */
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException 
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException 
 	{
 		
 		if (emfElement.eContainer() != null && emfElement.eContainer() instanceof Task)

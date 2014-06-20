@@ -98,7 +98,7 @@ public class MachineTypeSynchroniser extends AbstractSynchroniser {
 	 */
 	public <T extends EventBElement> EventBElement load(
 			IRodinElement rodinElement, EventBElement emfParent,
-			IProgressMonitor monitor) throws CoreException {
+			IProgressMonitor monitor) throws RodinDBException {
 	
 		if (rodinElement instanceof IMachineType )
 		{
@@ -138,8 +138,7 @@ public class MachineTypeSynchroniser extends AbstractSynchroniser {
 	 * This will be called by the AutoTask, Protected or Environ synchroniser save call.
 	 */
 	public IRodinElement save(EventBElement emfElement,
-			IRodinElement rodinParent, IProgressMonitor monitor)
-			throws CoreException{
+			IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException{
 		
 		if (emfElement instanceof AutoTask_MachineImpl)
 		{

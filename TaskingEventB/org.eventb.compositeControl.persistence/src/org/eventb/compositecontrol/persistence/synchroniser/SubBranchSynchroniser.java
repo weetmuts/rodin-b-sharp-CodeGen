@@ -55,7 +55,7 @@ public class SubBranchSynchroniser extends EMFToTaskBodySynchroniser  {
 	
 	
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		if (canLoad(emfParent))
 		{
 			//	Reset feature type to default

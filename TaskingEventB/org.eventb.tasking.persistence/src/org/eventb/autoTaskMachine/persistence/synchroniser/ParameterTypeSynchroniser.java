@@ -47,7 +47,7 @@ public class ParameterTypeSynchroniser extends AbstractSynchroniser {
 	}
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		ParameterType eventBElement = (ParameterType) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IParameterType)
@@ -62,7 +62,7 @@ public class ParameterTypeSynchroniser extends AbstractSynchroniser {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IParameterType && emfElement instanceof ParameterType) 

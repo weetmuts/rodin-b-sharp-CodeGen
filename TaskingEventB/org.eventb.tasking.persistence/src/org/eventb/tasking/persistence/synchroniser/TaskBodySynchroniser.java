@@ -104,7 +104,7 @@ public class TaskBodySynchroniser extends AbstractSynchroniser {
 	 */
 	public <T extends EventBElement> EventBElement load(
 			IRodinElement rodinElement, EventBElement emfParent,
-			IProgressMonitor monitor) throws CoreException 
+			IProgressMonitor monitor) throws RodinDBException 
 	{
 		if (rodinElement instanceof ITaskBody && emfParent instanceof TaskImpl)
 		{
