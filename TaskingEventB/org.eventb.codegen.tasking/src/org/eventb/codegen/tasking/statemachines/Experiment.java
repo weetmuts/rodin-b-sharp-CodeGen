@@ -1,18 +1,14 @@
 package org.eventb.codegen.tasking.statemachines;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eventb.codegen.il1.Action;
 import org.eventb.codegen.il1.Call;
-import org.eventb.codegen.il1.CaseStatement;
 import org.eventb.codegen.il1.Command;
 import org.eventb.codegen.il1.IL1Element;
 import org.eventb.codegen.il1.If;
@@ -25,9 +21,16 @@ import org.eventb.codegen.tasking.TaskingTranslationException;
 import org.eventb.codegen.tasking.TaskingTranslationManager;
 import org.eventb.codegen.tasking.utils.CodeGenTaskingUtils;
 import org.eventb.emf.core.EventBElement;
+import org.eventb.emf.core.machine.Action;
 import org.eventb.emf.core.machine.Event;
 import org.eventb.emf.core.machine.Guard;
 import org.eventb.emf.core.machine.impl.MachineImpl;
+
+import ac.soton.eventb.statemachines.AbstractNode;
+import ac.soton.eventb.statemachines.Initial;
+import ac.soton.eventb.statemachines.State;
+import ac.soton.eventb.statemachines.Transition;
+import ac.soton.eventb.statemachines.impl.StatemachineImpl;
 
 import compositeControl.Branch;
 import compositeControl.CompositeControl;
@@ -35,17 +38,9 @@ import compositeControl.CompositeControlFactory;
 import compositeControl.EventWrapper;
 import compositeControl.SubBranch;
 
-import ac.soton.eventb.statemachines.AbstractNode;
-import ac.soton.eventb.statemachines.Final;
-import ac.soton.eventb.statemachines.Initial;
-import ac.soton.eventb.statemachines.State;
-import ac.soton.eventb.statemachines.Transition;
-import ac.soton.eventb.statemachines.impl.InitialImpl;
-import ac.soton.eventb.statemachines.impl.StatemachineImpl;
-
 public class Experiment {
 
-	static Experiment singleton = null;
+	private static Experiment singleton = null;
 
 	public static Experiment getDefault() {
 		if (singleton == null) {
@@ -57,8 +52,9 @@ public class Experiment {
 	}
 
 	public Call run(EventBElement source, IL1Element actualTarget,
-			TaskingTranslationManager translationManager) throws TaskingTranslationException {
-		
+			TaskingTranslationManager translationManager)
+			throws TaskingTranslationException {
+
 		StatemachineImpl statemachine = (StatemachineImpl) source;
 		MachineImpl parentMachine = TaskingTranslationManager
 				.getParentMachine(statemachine);
@@ -69,27 +65,30 @@ public class Experiment {
 		String stateMachineName = statemachine.getName();
 		// Get the names of the states from the nodes.
 		EList<AbstractNode> nodes = statemachine.getNodes();
-		List<String> stateNames = new ArrayList<String>();		
-		
+		List<String> stateNames = new ArrayList<String>();
+
+		// A new list to store the subroutines: one per state.
+		Map<String, Subroutine> stateSubroutineMap = new HashMap<String, Subroutine>();
+
 		// Initial -initialisation> A
 		// A -t1> B
 		// A -t2> C
 		// B -t3> C
 		// C -t4> B
 		// C -t5> C
-		
+
 		// entryPoint: call A
 		// A: if t1; call B
-		//    elseif t2; call C;
+		// elseif t2; call C;
 		// B: t3; call C
-		// C: if t4; call B
-		//    elseif t5; call C
-		
+		// C: if t4; call C
+		// elseif t5; call A
+
 		for (AbstractNode node : nodes) {
 			int branchCount = 0;
 
 			if (node instanceof Initial) {
-				// The initial transition supplies the 
+				// The initial transition supplies the
 				// entry point (the first state)
 			} else if (node instanceof State) {
 				State si = (State) node;
@@ -128,27 +127,23 @@ public class Experiment {
 						// that has a transition that elaborates it.
 						TaskingTranslationManager.getEvent_SM_Map().put(event,
 								stateMachineName);
-						
-						
+
 					}
 				}
 				stateEventMap.put(stateName, eventList);
-			} 
+			}
 		}
-		
-		
-		
-		
 
 		String projectName = translationManager
 				.getProjectName((MachineImpl) parentMachine);
 
 		// non-initial transitions relate to an ACTION, SEQ or BRANCH statements
-		
+
 		for (String currentStateName : stateNames) {
 
 			// Each outgoing transition of a state may have event elaborations.
-			// We have an action, seq or branch for each event of an outgoing transition.
+			// We have an action, seq or branch for each event of an outgoing
+			// transition.
 			// The guard maps to a branch condition, and actions to updates
 			// Each transition is associated with '[guards] -> state'
 			// First: get the events associated with outgoing transitions of the
@@ -169,17 +164,11 @@ public class Experiment {
 				// store.
 				translationManager.getDoNotRecoverPreviousTranslationList()
 						.add(event);
-				Subroutine subroutine = (Subroutine) translationManager
+				// This subroutine has the wrong name
+				Subroutine tmpSubroutine = (Subroutine) translationManager
 						.translate(event);
-				Command originalBody = subroutine.getBody();
+				Command originalBody = tmpSubroutine.getBody();
 
-				//NEW: The subroutine needs a the name of the STATE
-				
-				
-				
-				
-				
-				
 				// If we have a guard other than the existing case guard
 				// and typing guards we need to add a branch.
 				// so filter out these guards
@@ -204,36 +193,29 @@ public class Experiment {
 
 				// In the case of a non synchronous (process state-machine)
 				// there should be no guards here
-				If newBranch = null;
 				if (cleanedUpGuards.size() > 0) {
 					throw new TaskingTranslationException(
 							"Guard not allowed on a single outgoing transition in: "
 									+ event.getName());
 				}
+
+				// The code above removes the guard that appears in the 'case' statement
+				// of a state-machine implementation.
 				
+				// We also replace the state-update assignment with a call to the 
+				// next-state subroutine. We repeat the algorithm above for actions,
+				// then substitute in a call instead.
+				
+				// remove the state update action from the event actions
+				removeStateUpdateAction(stateMachineName, event);
 				
 				// NEW: I think we can just work with the subroutine
-				// goto the IF, at the end of this method
-
-
-				// if there is no body throw an exception, else add the state update statement
-				if (originalBody != null) {
-					// - create a new seq to contain the new update statement
-					// but only if the nextStatement is not already in the
-					// actions
-					EList<org.eventb.emf.core.machine.Action> actionList = event
-							.getActions();
-					List<String> actStrings = new ArrayList<String>();
-					// we now have a list of actions for this single outgoing
-					// transition event
-					for (org.eventb.emf.core.machine.Action action : actionList) {
-						actStrings.add(action.getAction().trim());
-					}
-				} else {
-					throw new TaskingTranslationException("Event "
-							+ event.getName()
-							+ " in statemachine generated no body.");
-				}
+				// that we store in the map
+				tmpSubroutine.setName(currentStateName);
+				stateSubroutineMap.put(currentStateName, tmpSubroutine);
+				// Add the next call!!!
+				// >>>>>>>>>>>>>>>>>>>>>
+				
 			} else if (events.size() > 1) {
 				// Else if there is more than one outgoing transition,
 				// Create a temporary Tasking Event-B branch and translate this
@@ -277,7 +259,9 @@ public class Experiment {
 					if (found) {
 						guards.remove(idx);
 					}
-
+					// remove the state update action from the event actions
+					removeStateUpdateAction(stateMachineName, event);
+					
 					if (first) {
 						EventWrapper wrapper = CompositeControlFactory.eINSTANCE
 								.createEventWrapper();
@@ -312,20 +296,30 @@ public class Experiment {
 				// We now have a temporary Event-B branch structure of the
 				// outgoing transitions of the current state.
 				// Translate this now to IL1...
-				
-				
-				// NEW: This is the branch that we want to embed in the subroutine.
-				// we need to adjust the body to add further sequences at the root.
-				// Add the initial Entry's call to the first state at the beginning
+
+				// NEW: This is the branch that we want to embed in the
+				// subroutine.
+				// we need to adjust the body to add further sequences at the
+				// root.
+				// Add the initial Entry's call to the first state at the
+				// beginning
 				// of the sequence, add the branch from the IF.
-				// In addition, add a Call to the 'next-state' on the end of each the transitions.
-				
-				// and add a Call to the 'next-state subroutine' for each branch 
-				
-					If translated = (If) translationManager.translate(branch);
+				// In addition, add a Call to the 'next-state' on the end of
+				// each the transitions.
 
+				// and add a Call to the 'next-state subroutine' for each branch
+
+				If translated = (If) translationManager.translate(branch);
+				
+				
+				
+				System.out.println();
+
+				Subroutine subroutine = Il1Factory.eINSTANCE.createSubroutine();
+				subroutine.setName(currentStateName);
+				subroutine.setBody(translated);
+				stateSubroutineMap.put(currentStateName, subroutine);
 			}
-
 		}
 
 		// Add the subroutines and decls to the protected/tasks
@@ -340,7 +334,7 @@ public class Experiment {
 			Task t = (Task) actualTarget;
 			t.getSubroutines().add(subroutine);
 		}
-//		subroutine.setBody(command);
+		// subroutine.setBody(command);
 
 		// Now we should create and return the call to the subroutine
 		Call call = Il1Factory.eINSTANCE.createCall();
@@ -351,7 +345,33 @@ public class Experiment {
 
 		return call;
 
-
 	}
-	
+
+	private void removeStateUpdateAction(String stateMachineName, Event event) {
+		// The code above removes the guard that appears in the 'case' statement
+		// of a state-machine implementation.
+		
+		// We also replace the state-update assignment with a call to the 
+		// next-state subroutine. We repeat the algorithm above for actions,
+		// then substitute in a call instead.
+		
+		EList<Action> actionList = event.getActions();
+		int idx2 = -1;
+		boolean found2 = false;
+		for (Action action : actionList) {
+			idx2++;
+			String actionString = CodeGenTaskingUtils
+					.makeSingleSpaceBetweenElements(action
+							.getAction());
+			String nextStateAssignment = stateMachineName + " "+ CodeGenTaskingUtils.ASSIGNMENT_SYMBOL + " ";
+			if (actionString.startsWith(nextStateAssignment)) {
+				found2 = true;
+				break;
+			}
+		}
+		if (found2) {
+			actionList.remove(idx2);
+		}
+	}
+
 }
