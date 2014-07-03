@@ -69,14 +69,28 @@ public class Experiment {
 		String stateMachineName = statemachine.getName();
 		// Get the names of the states from the nodes.
 		EList<AbstractNode> nodes = statemachine.getNodes();
-		List<String> stateNames = new ArrayList<String>();
-
+		List<String> stateNames = new ArrayList<String>();		
+		
+		// Initial -initialisation> A
+		// A -t1> B
+		// A -t2> C
+		// B -t3> C
+		// C -t4> B
+		// C -t5> C
+		
+		// entryPoint: call A
+		// A: if t1; call B
+		//    elseif t2; call C;
+		// B: t3; call C
+		// C: if t4; call B
+		//    elseif t5; call C
+		
 		for (AbstractNode node : nodes) {
 			int branchCount = 0;
 
 			if (node instanceof Initial) {
-				// ignore the initialisation
-				// stateNames.add(s.getName() + "_init");
+				// The initial transition supplies the 
+				// entry point (the first state)
 			} else if (node instanceof State) {
 				State si = (State) node;
 				String stateName = si.getName();
@@ -159,6 +173,13 @@ public class Experiment {
 						.translate(event);
 				Command originalBody = subroutine.getBody();
 
+				//NEW: The subroutine needs a the name of the STATE
+				
+				
+				
+				
+				
+				
 				// If we have a guard other than the existing case guard
 				// and typing guards we need to add a branch.
 				// so filter out these guards
@@ -189,8 +210,13 @@ public class Experiment {
 							"Guard not allowed on a single outgoing transition in: "
 									+ event.getName());
 				}
+				
+				
+				// NEW: I think we can just work with the subroutine
+				// goto the IF, at the end of this method
 
-				// if there is no body, add just the state update statement
+
+				// if there is no body throw an exception, else add the state update statement
 				if (originalBody != null) {
 					// - create a new seq to contain the new update statement
 					// but only if the nextStatement is not already in the
@@ -286,6 +312,16 @@ public class Experiment {
 				// We now have a temporary Event-B branch structure of the
 				// outgoing transitions of the current state.
 				// Translate this now to IL1...
+				
+				
+				// NEW: This is the branch that we want to embed in the subroutine.
+				// we need to adjust the body to add further sequences at the root.
+				// Add the initial Entry's call to the first state at the beginning
+				// of the sequence, add the branch from the IF.
+				// In addition, add a Call to the 'next-state' on the end of each the transitions.
+				
+				// and add a Call to the 'next-state subroutine' for each branch 
+				
 					If translated = (If) translationManager.translate(branch);
 
 			}
@@ -304,7 +340,7 @@ public class Experiment {
 			Task t = (Task) actualTarget;
 			t.getSubroutines().add(subroutine);
 		}
-		subroutine.setBody(command);
+//		subroutine.setBody(command);
 
 		// Now we should create and return the call to the subroutine
 		Call call = Il1Factory.eINSTANCE.createCall();
