@@ -52,7 +52,7 @@ public class ComposedEventSynchroniser extends AbstractSynchroniser {
 		return handledAttributes;
 	}
 
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
 		// create EMF node
 		ComposedEvent eventBElement = (ComposedEvent) super.load(rodinElement, emfParent, monitor);
 		if (rodinElement instanceof IComposesEvent) {
@@ -91,7 +91,7 @@ public class ComposedEventSynchroniser extends AbstractSynchroniser {
 	
 	
 	@Override
-	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws CoreException {
 
 		// create Rodin element
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);

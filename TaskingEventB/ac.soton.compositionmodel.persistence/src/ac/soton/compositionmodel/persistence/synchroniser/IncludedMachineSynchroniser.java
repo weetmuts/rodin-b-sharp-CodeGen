@@ -3,6 +3,7 @@ package ac.soton.compositionmodel.persistence.synchroniser;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.core.IMachineRoot;
@@ -46,14 +47,14 @@ public class IncludedMachineSynchroniser extends AbstractSynchroniser {
 	
 	
 
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
 		// create EMF node
 		IncludedMachine eventBElement = (IncludedMachine) super.load(rodinElement, emfParent, monitor);
 		if (rodinElement instanceof IIncludeMachine) {
 			IIncludeMachine includeMachine = (IIncludeMachine) rodinElement;
 			
 			try {
-				includeMachine.getIncludedMachinePath();
+				includeMachine.getIncludedMachineName();
 			}
 			catch (RodinDBException e)
 			{			
@@ -82,7 +83,7 @@ public class IncludedMachineSynchroniser extends AbstractSynchroniser {
 	}
 	
 	
-	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws CoreException {
 
 		// create Rodin element
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
@@ -94,7 +95,7 @@ public class IncludedMachineSynchroniser extends AbstractSynchroniser {
 			String machineName = eventBElement.getMachineName();			
 			String projectName = eventBElement.getProjectName();
 								
-			rodinIncludedMachine.setIncludedMachinePath(machineName, monitor);
+			rodinIncludedMachine.setIncludedMachineName(machineName, monitor);
 			rodinIncludedMachine.setIncludedProjectName(projectName, monitor);			
 		}
 		return rodinElement;

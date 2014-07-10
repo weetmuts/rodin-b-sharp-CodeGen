@@ -88,10 +88,10 @@ public class DoSynchroniser extends EMFToTaskBodySynchroniser  {
 	/**
 	 * This will not be called by new method of translation.
 	 * As all CompositeControl elements are handled as a TaskBody string.
-	 * @throws RodinDBException 
+	 * @throws CoreException 
 	 * 
 	 */
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
 		
 		if (canLoad(emfParent))
 		{

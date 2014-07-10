@@ -16,7 +16,7 @@ import org.rodinp.core.IRodinDBStatusConstants;
 import org.rodinp.core.IRodinElement;
 import org.rodinp.core.RodinDBException;
 
-import ac.soton.composition.core.ICombinedEventInfo;
+import ac.soton.composition.core.ICombinedEventMachine;
 import ac.soton.compositionmodel.core.compositionmodel.CombinedEventMachine;
 import ac.soton.compositionmodel.core.compositionmodel.CompositionmodelFactory;
 import ac.soton.compositionmodel.core.compositionmodel.CompositionmodelPackage;
@@ -37,7 +37,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 
 	@Override
 	protected IInternalElementType<?> getRodinType() {
-		return ICombinedEventInfo.ELEMENT_TYPE;
+		return ICombinedEventMachine.ELEMENT_TYPE;
 	}
 
 	@Override
@@ -47,18 +47,18 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	
 	
 	
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
 		// create EMF node
 		CombinedEventMachine eventBElement = (CombinedEventMachine) super.load(rodinElement, emfParent, monitor);
-		if (rodinElement instanceof ICombinedEventInfo) {
-			ICombinedEventInfo combinedEventMachine = (ICombinedEventInfo) rodinElement;
+		if (rodinElement instanceof ICombinedEventMachine) {
+			ICombinedEventMachine combinedEventMachine = (ICombinedEventMachine) rodinElement;
 			
 			IMachineRoot machine;
 			IEvent event;
 			
 			try
 			{
-				machine = combinedEventMachine.getMachineRoot();
+				machine = combinedEventMachine.getCombinedMachine();
 			}
 			catch (RodinDBException e)
 			{			
@@ -101,12 +101,12 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	}
 	
 	
-	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws CoreException {
 
 		// create Rodin element
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
-		if (rodinElement instanceof ICombinedEventInfo && emfElement instanceof CombinedEventMachine) {
-			ICombinedEventInfo rodinCombinedEventMachine = (ICombinedEventInfo) rodinElement;
+		if (rodinElement instanceof ICombinedEventMachine && emfElement instanceof CombinedEventMachine) {
+			ICombinedEventMachine rodinCombinedEventMachine = (ICombinedEventMachine) rodinElement;
 			CombinedEventMachine eventBElement = (CombinedEventMachine) emfElement;
 			
 
@@ -117,7 +117,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 			if (machineName == null || eventName == null || projectName == null)
 				return rodinElement;
 					
-			rodinCombinedEventMachine.setMachinePath("[" + projectName +  "]" +machineName, monitor);			
+			rodinCombinedEventMachine.setCombinedMachineName("[" + projectName +  "]" +machineName, monitor);			
 			rodinCombinedEventMachine.setCombinedEventName(eventName, monitor);	
 		}
 		return rodinElement;

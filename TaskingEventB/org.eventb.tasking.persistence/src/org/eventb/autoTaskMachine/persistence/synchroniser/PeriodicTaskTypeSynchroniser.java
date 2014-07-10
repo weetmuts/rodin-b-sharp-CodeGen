@@ -41,7 +41,7 @@ public class PeriodicTaskTypeSynchroniser extends TaskTypeSynchroniser {
 	
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
 		PeriodicTaskType eventBElement = (PeriodicTaskType) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IPeriodicTaskType)
@@ -55,7 +55,7 @@ public class PeriodicTaskTypeSynchroniser extends TaskTypeSynchroniser {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IPeriodicTaskType && emfElement instanceof PeriodicTaskType) 
