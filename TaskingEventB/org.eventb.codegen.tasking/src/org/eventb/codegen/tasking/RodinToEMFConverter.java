@@ -15,8 +15,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.eventb.core.IMachineRoot;
 import org.eventb.core.basis.ContextRoot;
-import org.eventb.core.basis.MachineRoot;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.emf.core.EventBObject;
 import org.eventb.emf.core.Project;
@@ -105,7 +105,7 @@ public class RodinToEMFConverter {
 		return (ContextImpl) context;
 	}
 
-	public static MachineImpl loadMachine(MachineRoot machineRoot) throws RodinDBException
+	public static MachineImpl loadMachine(IMachineRoot machineRoot) throws RodinDBException
 	{
 		Map<IRodinElement,EventBObject> map = new HashMap<IRodinElement, EventBObject>();
 		map.clear();

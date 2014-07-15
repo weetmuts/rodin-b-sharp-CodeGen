@@ -128,7 +128,7 @@
          TargetName="IL1"
          TargetOutput="IL1"
          name="EventBCore Machine"
-         nsURISource="http://emf.eventb.org/models/core/machine"
+         nsURISource="http://emf.eventb.org/models/core/machine/2014"
          nsURITarget="http://il1/1.0">
       <taskingTranslator
             name="Event"
@@ -172,7 +172,7 @@
          TargetName="IL1"
          TargetOutput="IL1"
          name="EventBCore Context"
-         nsURISource="http://emf.eventb.org/models/core/context"
+         nsURISource="http://emf.eventb.org/models/core/context/2014"
          nsURITarget="http://il1/1.0">
       <taskingTranslator
             name="Constant"
@@ -225,7 +225,7 @@
    <emfPackage
          TargetOutput="IL1"
          name="Statemachine"
-         nsURISource="http://soton.ac.uk/models/eventb/statemachines">
+         nsURISource="http://soton.ac.uk/models/eventb/statemachines/2014">
       <taskingTranslator
             name="Statemachine"
             sourceClass="Statemachine"
@@ -302,7 +302,7 @@
    <emfPackage
          TargetOutput="EventB"
          name="EventBCore"
-         nsURISource="http://emf.eventb.org/models/core/machine">
+         nsURISource="http://emf.eventb.org/models/core/machine/2014">
       <taskingTranslator
             name="Action"
             sourceClass="Action"
@@ -322,7 +322,7 @@
    <emfPackage
          TargetOutput="EventB"
          name="EventBContext"
-         nsURISource="http://emf.eventb.org/models/core/context">
+         nsURISource="http://emf.eventb.org/models/core/context/2014">
    </emfPackage>
 </extension>
     <extension
