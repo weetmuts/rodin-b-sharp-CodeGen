@@ -25,7 +25,6 @@ import org.eventb.codegen.tasking.AbstractTaskingTranslator;
 import org.eventb.codegen.tasking.RodinToEMFConverter;
 import org.eventb.codegen.tasking.TaskingTranslationException;
 import org.eventb.codegen.tasking.TaskingTranslationManager;
-import org.eventb.codegen.tasking.statemachines.Experiment;
 import org.eventb.codegen.tasking.utils.CodeGenTaskingUtils;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.emf.core.machine.Event;
@@ -53,9 +52,6 @@ public class StatemachineTranslator extends AbstractTaskingTranslator {
 	public Call translate(EventBElement source, IL1Element actualTarget,
 			TaskingTranslationManager translationManager)
 			throws TaskingTranslationException {
-		
-		Experiment experiment = Experiment.getDefault();
-		experiment.run(source, actualTarget, translationManager);
 		
 		// Get the state machine.
 		StatemachineImpl statemachine = (StatemachineImpl) source;
