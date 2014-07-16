@@ -223,7 +223,6 @@ public class TaskingTranslationManager {
 	private List<Subroutine> fmuCommunicatingSubroutines = new ArrayList<Subroutine>();
 
 	private Map<String, Protected> fmuMachinesMap = null;
-	private boolean isFMUTranslation = false;
 
 	public Protected getSharedMachineTranslation(String projectName,
 			String machineName) {
@@ -453,7 +452,7 @@ public class TaskingTranslationManager {
 
 				// This Branch handles the new FMU translation, which translates
 				// autotask machines (and possibly shared machines).
-				if (isFMUTranslation) {
+				if (translationType.equals("FMU")) {
 					if (taskingType instanceof Shared_Machine) {
 						sharedMachines.add(machine);
 						sharedMachineNames.add(machine.getName());
@@ -1170,11 +1169,6 @@ public class TaskingTranslationManager {
 		return typeEnvironment;
 
 	}
-
-	public void setFMUTranslation(boolean b) {
-		isFMUTranslation = b;
-	}
-
 	public List<Subroutine> getCommunicatingSubroutines() {
 		return fmuCommunicatingSubroutines ;
 	}

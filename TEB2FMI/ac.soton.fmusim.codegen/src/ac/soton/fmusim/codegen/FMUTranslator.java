@@ -224,7 +224,7 @@ public class FMUTranslator extends AbstractTranslateEventBToTarget {
 		// an FMU translation.
 		// We need this since the FMU translation type is optional and may well
 		// be removed.;
-		taskingTranslationManager.setFMUTranslation(true);
+		TaskingTranslationManager.setTranslationType("FMU");
 		// load the EMF components
 		RMLDataStruct loadedEMFComponents = EMFLoader
 				.loadEMFMachinesContexts(machineRoot);
@@ -259,7 +259,7 @@ public class FMUTranslator extends AbstractTranslateEventBToTarget {
 		}
 		saveBaseProgram(program, targetFile(target));
 		// We reset this flag, since we have finished.
-		taskingTranslationManager.setFMUTranslation(false);
+//		taskingTranslationManager.setFMUTranslation(false);
 		return program;
 	}
 
