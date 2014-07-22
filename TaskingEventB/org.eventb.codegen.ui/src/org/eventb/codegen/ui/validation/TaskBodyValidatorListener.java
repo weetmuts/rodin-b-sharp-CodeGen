@@ -116,7 +116,9 @@ public class TaskBodyValidatorListener implements IElementChangedListener {
 		
 		// If invariant has no typing set and predicate has element_of, then it
 		// is typing
-		if (i.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
+		
+		if (i.hasAttribute(TYPING_ATTRIBUTE) &&
+				i.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
 			if (i.getPredicateString().contains(ELEMENT_OF)) {
 				i.setAttributeValue(TYPING_ATTRIBUTE, TYPING, null);
 			} else {
@@ -139,7 +141,8 @@ public class TaskBodyValidatorListener implements IElementChangedListener {
 
 		// If invariant has no typing set and predicate has element_of, then it
 		// is typing
-		if (g.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
+		if (g.hasAttribute(TYPING_ATTRIBUTE) &&
+				g.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
 			if (g.getPredicateString().contains(ELEMENT_OF)) {
 				g.setAttributeValue(TYPING_ATTRIBUTE, TYPING, null);
 			} else {
@@ -162,7 +165,8 @@ public class TaskBodyValidatorListener implements IElementChangedListener {
 
 		// If invariant has no typing set and predicate has element_of, then it
 		// is typing
-		if (a.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
+		if (a.hasAttribute(TYPING_ATTRIBUTE) &&
+				a.getAttributeValue(TYPING_ATTRIBUTE).equals(TYPE_NOT_SET)) {
 			if (a.getPredicateString().contains(ELEMENT_OF)) {
 				a.setAttributeValue(TYPING_ATTRIBUTE, TYPING, null);
 			} else {
