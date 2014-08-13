@@ -52,6 +52,7 @@ public class StatemachineTranslator extends AbstractTaskingTranslator {
 	public Call translate(EventBElement source, IL1Element actualTarget,
 			TaskingTranslationManager translationManager)
 			throws TaskingTranslationException {
+		
 		// Get the state machine.
 		StatemachineImpl statemachine = (StatemachineImpl) source;
 		MachineImpl parentMachine = TaskingTranslationManager

@@ -213,10 +213,16 @@ public class TaskingTranslationManager {
 	private static String prefFlatten = "PreferenceFlatten";
 	// A similar preference for Java Interface Generation
 	private static String prefJavaInterface = "PreferenceJavaInterface";
+	// Setting (translationType = "tasking") => (the static checker is required to validate the 
+	// typing info an tasking machines).
+	// Other values omit these checks.
+	public static final String DEFAULT_TRANSLATION_TYPE = "tasking";
+
+	private static String translationType = DEFAULT_TRANSLATION_TYPE; // The default is tasking, so static checks are performed.
+
 	private List<Subroutine> fmuCommunicatingSubroutines = new ArrayList<Subroutine>();
 
 	private Map<String, Protected> fmuMachinesMap = null;
-	private boolean isFMUTranslation = false;
 
 	public Protected getSharedMachineTranslation(String projectName,
 			String machineName) {
@@ -262,6 +268,19 @@ public class TaskingTranslationManager {
 							.getAttribute("nsURISource");
 					EPackage ePackageSource = EPackage.Registry.INSTANCE
 							.getEPackage(nsURISource);
+					
+					if(ePackageSource == null){
+						try {
+							throw new TaskingTranslationException("Unable to find the metamodel nsURI: "+ nsURISource);
+						} catch (TaskingTranslationException e) {
+							Status status = new Status(IStatus.ERROR, CodeGenTasking.PLUGIN_ID,
+									"Failed Translation: TaskingTranslationException"
+											+ ":\n"+ extractFullExceptionMessage(e), e);
+							StatusManager.getManager().handle(status, StatusManager.SHOW);
+						}
+					}
+					
+					
 					String targetName = packageElement
 							.getAttribute("TargetOutput");
 					if (targetName.equals("IL1")) {
@@ -308,6 +327,15 @@ public class TaskingTranslationManager {
 		defaultTaskingTranslator = new DefaultTaskingTranslator();// DynamicSynchroniser();
 	}
 
+	private static String extractFullExceptionMessage(Exception e) {
+		String initialMessage = e.getMessage() + "\n";
+		StackTraceElement[] stackTraceArray = e.getStackTrace();
+		for (int idx = 0; idx < stackTraceArray.length; idx++) {
+			initialMessage = initialMessage + stackTraceArray[idx] + "\n";
+		}
+		return initialMessage;
+	}
+	
 	public TaskingTranslationManager(Il1Factory factory) {
 		this.factory = factory;
 		program = this.factory.createProgram();
@@ -424,7 +452,7 @@ public class TaskingTranslationManager {
 
 				// This Branch handles the new FMU translation, which translates
 				// autotask machines (and possibly shared machines).
-				if (isFMUTranslation) {
+				if (translationType.equals("FMU")) {
 					if (taskingType instanceof Shared_Machine) {
 						sharedMachines.add(machine);
 						sharedMachineNames.add(machine.getName());
@@ -1141,12 +1169,15 @@ public class TaskingTranslationManager {
 		return typeEnvironment;
 
 	}
-
-	public void setFMUTranslation(boolean b) {
-		isFMUTranslation = b;
-	}
-
 	public List<Subroutine> getCommunicatingSubroutines() {
 		return fmuCommunicatingSubroutines ;
+	}
+
+	public static String getTranslationType() {
+		return translationType;
+	}
+	
+	public static void setTranslationType(String s){
+		translationType = s;
 	}
 }
