@@ -3,6 +3,7 @@ package org.eventb.codegen.templates.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eventb.codegen.il1.Program;
+import org.eventb.codegen.il1.Task;
 import org.eventb.codegen.il1.impl.ProtectedImpl;
 import org.eventb.codegen.templates.IGeneratorData;
 import org.rodinp.core.IRodinProject;
@@ -32,6 +35,9 @@ public class TemplateProcessor {
 	private String targetName;
 	private List<String> codeArray;
 	private String targetFolderPath;
+	private String fileExtension = ".c"; // the default file extension
+	private String language = "fmi_c"; // the default language setting
+	
 
 	public static TemplateProcessor getDefault() {
 		if (templateProcessor == null) {
@@ -109,6 +115,10 @@ public class TemplateProcessor {
 				targetName = ((ProtectedImpl) d).getName();
 				break;
 			}
+			else if (d instanceof Program) {
+				targetName = ((Program) d).getName();
+				break;
+			}
 		}
 		targetFolderPath = targetFolder.getRawLocation().addTrailingSeparator()
 				.toString();
@@ -126,9 +136,28 @@ public class TemplateProcessor {
 	}
 
 	private void doSave() {
-		// call the code filer utility
+		File dir = new File(targetFolderPath);
+		if(!dir.exists()){
+			try {
+				dir.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		File f = new File(targetFolderPath + targetName + fileExtension);
+		if(!f.exists()){
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
 		CodeFiler.getDefault().save(codeArray, targetFolderPath,
-				targetName + ".c", "fmi_c");
+				targetName + fileExtension, language);
 	}
 
 	// This takes a buffered reader (pointing to a template), and list of child
@@ -180,6 +209,22 @@ public class TemplateProcessor {
 		int lastDelimiter = line.indexOf(">");
 		String keyword = line.substring(firstDelimiter, lastDelimiter);
 		return keyword;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 }
