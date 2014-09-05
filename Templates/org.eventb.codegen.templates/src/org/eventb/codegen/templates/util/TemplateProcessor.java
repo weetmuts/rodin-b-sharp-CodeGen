@@ -52,6 +52,29 @@ public class TemplateProcessor {
 		return targetFolder;
 	}
 
+	
+	// Given a Rodin Project find the (non-Rodin) folder with that name.
+	// We use it to find the templates source folder;
+	// Also store the bufferedWriter for later use.
+	public void initialiseTarget(IRodinProject rodinProject, String folderName)
+			throws RodinDBException, TemplateException {
+		List<IResource> nonRodinResources = Arrays.asList(rodinProject
+				.getNonRodinResources());
+		for (IResource resource : nonRodinResources) {
+			if (resource.getType() == IResource.FOLDER
+					&& resource.getName().equals(folderName)) {
+				targetFolder = (IFolder) resource;
+				// we've found it, let's return.
+				return;
+			}
+		}
+		// we got here so we've been unable to initialise the reader
+		throw new TemplateException(
+				"could not initialise Template Reader with: "
+						+ rodinProject.getElementName() + "/" + folderName);
+	}
+
+	
 	// Given a Rodin Project find the (non-Rodin) folder with that name.
 	// We use it to find the templates source folder;
 	// Also store the bufferedWriter for later use.
@@ -73,6 +96,7 @@ public class TemplateProcessor {
 						+ rodinProject.getElementName() + "/" + folderName);
 	}
 
+	
 	// This is the method that should go through each line, and replace the
 	// tag with generated code. Then write the output to a file.
 	public void instantiateTemplate(String templateName, IGeneratorData data_)
@@ -93,6 +117,7 @@ public class TemplateProcessor {
 					// We've found the template resource, so log it,
 					// but continue looping to add remaining folder contents.
 					templateFile = iFile;
+					templateFolderContentMap.put(fileName, iFile);
 				} else {
 					templateFolderContentMap.put(fileName, iFile);
 				}
@@ -184,6 +209,7 @@ public class TemplateProcessor {
 				if (foundComment) {
 					String tagword = getTagword(line);
 					TemplateHelper templateHelper = new TemplateHelper(data);
+					
 					templateHelper
 							.setChildTemplateMap(templateFolderContentMap);
 					// add the reader to the data - so it can be used down
@@ -194,7 +220,9 @@ public class TemplateProcessor {
 					data.getDataList().remove(bufferedReader);
 				}
 				if (foundComment) {
-					tempArrayList.addAll(newLines);
+					if(newLines != null){
+						tempArrayList.addAll(newLines);
+					}
 				} else {
 					tempArrayList.add(line);
 				}
