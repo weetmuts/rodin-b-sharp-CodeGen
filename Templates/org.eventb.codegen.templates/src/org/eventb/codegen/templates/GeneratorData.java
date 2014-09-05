@@ -3,8 +3,6 @@ package org.eventb.codegen.templates;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eventb.codegen.templates.IGeneratorData;
-
 // A Generator Data Object:
 // This is a class holding information to be used for translation.
 // The class can be extended to add fields for holding un-packed data.

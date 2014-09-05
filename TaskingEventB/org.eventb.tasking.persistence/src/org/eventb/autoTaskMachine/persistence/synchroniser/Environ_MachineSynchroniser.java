@@ -10,7 +10,6 @@ import org.eventb.tasking.persistence.IEnviron_Machine;
 import org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.Environ_Machine;
 

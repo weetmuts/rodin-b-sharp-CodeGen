@@ -13,7 +13,6 @@ import org.eventb.tasking.persistence.IAddressedVariable;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.AddressedVariable;
 import tasking.TaskingFactory;

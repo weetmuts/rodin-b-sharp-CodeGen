@@ -11,7 +11,6 @@ import org.eventb.emf.core.CorePackage;
 import org.eventb.emf.core.EventBElement;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.Task;
 import tasking.TaskingPackage;

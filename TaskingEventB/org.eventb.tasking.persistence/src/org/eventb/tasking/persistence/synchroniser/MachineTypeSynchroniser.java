@@ -25,7 +25,6 @@ import org.eventb.tasking.persistence.impl.Tasking_Machine;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.FMU_Machine;
 import tasking.TaskingFactory;

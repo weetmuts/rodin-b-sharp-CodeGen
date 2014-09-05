@@ -14,7 +14,6 @@ import org.eventb.codegen.tasking.utils.CodeGenTaskingUtils;
 import org.eventb.core.IEvent;
 import org.eventb.core.IInvariant;
 import org.eventb.core.IMachineRoot;
-import org.eventb.core.IParameter;
 import org.eventb.core.IRefinesEvent;
 import org.eventb.core.IVariable;
 import org.eventb.core.basis.EventBElement;

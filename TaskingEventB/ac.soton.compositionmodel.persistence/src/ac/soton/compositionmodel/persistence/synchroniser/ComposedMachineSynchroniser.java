@@ -17,7 +17,6 @@ import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
 import org.rodinp.core.IRodinProject;
-import org.rodinp.core.RodinDBException;
 
 import ac.soton.composition.core.IComposedMachineRoot;
 import ac.soton.composition.core.ISeesContext;

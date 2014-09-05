@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eventb.codegen.il1.Program;
-import org.eventb.codegen.il1.Task;
 import org.eventb.codegen.il1.impl.ProtectedImpl;
 import org.eventb.codegen.templates.IGeneratorData;
 import org.rodinp.core.IRodinProject;

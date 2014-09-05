@@ -19,7 +19,6 @@ import org.eventb.tasking.persistence.impl.TaskType;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.PeriodicTaskType;
 import tasking.SimpleTaskType;

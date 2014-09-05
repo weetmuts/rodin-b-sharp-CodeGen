@@ -6,12 +6,7 @@ import static org.eventb.codegen.ui.attributes.TypingAttribute.TYPE_NOT_SET;
 import static org.eventb.codegen.ui.attributes.TypingAttribute.TYPING;
 import static org.eventb.codegen.ui.attributes.TypingAttribute.TYPING_ATTRIBUTE;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.statushandlers.StatusManager;
-import org.eventb.codegen.tasking.CodeGenTasking;
 import org.eventb.codegen.tasking.TaskingTranslationManager;
-import org.eventb.codegen.tasking.utils.CodeGenTaskingUtils;
 import org.eventb.codegen.ui.EventBCodeGenerationUI;
 import org.eventb.core.IAxiom;
 import org.eventb.core.IContextRoot;

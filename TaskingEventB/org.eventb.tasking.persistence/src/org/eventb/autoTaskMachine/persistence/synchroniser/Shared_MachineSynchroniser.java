@@ -6,7 +6,6 @@ import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IShared_Machine;
 import org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.Shared_Machine;
 import tasking.Tasking_Machine;

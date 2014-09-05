@@ -7,7 +7,6 @@ import org.eventb.emf.core.EventBElement;
 import org.eventb.emf.core.machine.impl.MachineImpl;
 import org.eventb.emf.persistence.synchroniser.InvariantSynchroniser;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import ac.soton.compositionmodel.core.compositionmodel.CompositionmodelPackage;
 

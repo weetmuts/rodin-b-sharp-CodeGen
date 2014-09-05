@@ -26,7 +26,6 @@ import org.eventb.codegen.tasking.TaskingTranslationManager;
 import org.eventb.codegen.tasking.statemachines.StateMachineTranslationManager;
 import org.eventb.codegen.tasking.utils.CodeGenTaskingUtils;
 import org.eventb.codegen.tasking.utils.DeclarationList;
-import org.eventb.core.ast.BecomesMemberOf;
 import org.eventb.emf.core.AbstractExtension;
 import org.eventb.emf.core.Attribute;
 import org.eventb.emf.core.EventBElement;

@@ -14,7 +14,6 @@ import org.eventb.emf.persistence.synchroniser.AbstractSynchroniser;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import ac.soton.composition.core.IComposesEvent;
 import ac.soton.compositionmodel.core.compositionmodel.ComposedEvent;

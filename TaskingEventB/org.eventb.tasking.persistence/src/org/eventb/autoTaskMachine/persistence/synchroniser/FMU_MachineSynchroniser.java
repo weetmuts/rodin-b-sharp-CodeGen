@@ -5,7 +5,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.FMU_Machine;
 

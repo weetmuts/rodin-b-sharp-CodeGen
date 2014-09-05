@@ -6,7 +6,6 @@ import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IPeriodicTaskType;
 import org.eventb.tasking.persistence.synchroniser.TaskTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.PeriodicTaskType;
 

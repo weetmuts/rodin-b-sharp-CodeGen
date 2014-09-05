@@ -14,7 +14,6 @@ import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IAutoTask_Machine;
 import org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
-import org.rodinp.core.RodinDBException;
 
 import tasking.AutoTask_Machine;
 
