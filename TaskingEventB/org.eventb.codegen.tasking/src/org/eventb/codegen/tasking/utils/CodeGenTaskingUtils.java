@@ -65,8 +65,7 @@ public final class CodeGenTaskingUtils {
 		return null;
 	}
 
-	
-	public static void cloneAutoTaskToFMU(MachineImpl machine){
+	public static void cloneAutoTaskToFMU(MachineImpl machine) {
 		EList<AbstractExtension> extensions = machine.getExtensions();
 		AbstractExtension oldExtension = null;
 		tasking.FMU_Machine fmuMachine = null;
@@ -74,7 +73,8 @@ public final class CodeGenTaskingUtils {
 		for (AbstractExtension eObj : extensions) {
 			if (eObj instanceof tasking.AutoTask_Machine) {
 				tasking.AutoTask_Machine atMachine = (tasking.AutoTask_Machine) eObj;
-				fmuMachine = tasking.TaskingFactory.eINSTANCE.createFMU_Machine();
+				fmuMachine = tasking.TaskingFactory.eINSTANCE
+						.createFMU_Machine();
 				fmuMachine.getAnnotations().addAll(atMachine.getAnnotations());
 				fmuMachine.getAttributes().addAll(atMachine.getAttributes());
 				fmuMachine.setGenerated(atMachine.isGenerated());
@@ -84,11 +84,12 @@ public final class CodeGenTaskingUtils {
 				fmuMachine.setTaskType(atMachine.getTaskType());
 				oldExtension = eObj;
 				break;
-			}
-			else if(eObj instanceof tasking.Task){
+			} else if (eObj instanceof tasking.Task) {
 				tasking.Task taskMachine = (tasking.Task) eObj;
-				fmuMachine = tasking.TaskingFactory.eINSTANCE.createFMU_Machine();
-				fmuMachine.getAnnotations().addAll(taskMachine.getAnnotations());
+				fmuMachine = tasking.TaskingFactory.eINSTANCE
+						.createFMU_Machine();
+				fmuMachine.getAnnotations()
+						.addAll(taskMachine.getAnnotations());
 				fmuMachine.getAttributes().addAll(taskMachine.getAttributes());
 				fmuMachine.setGenerated(taskMachine.isGenerated());
 				fmuMachine.setLocalGenerated(taskMachine.isLocalGenerated());
@@ -103,8 +104,8 @@ public final class CodeGenTaskingUtils {
 		extensions.remove(oldExtension);
 		extensions.add(fmuMachine);
 	}
-	
-	public static void cloneEnvironTaskToFMU(MachineImpl machine){
+
+	public static void cloneEnvironTaskToFMU(MachineImpl machine) {
 		EList<AbstractExtension> extensions = machine.getExtensions();
 		AbstractExtension oldExtension = null;
 		tasking.FMU_Machine fmuMachine = null;
@@ -112,9 +113,12 @@ public final class CodeGenTaskingUtils {
 		for (AbstractExtension eObj : extensions) {
 			if (eObj instanceof tasking.Environ_Machine) {
 				tasking.Environ_Machine environMachine = (tasking.Environ_Machine) eObj;
-				fmuMachine = tasking.TaskingFactory.eINSTANCE.createFMU_Machine();
-				fmuMachine.getAnnotations().addAll(environMachine.getAnnotations());
-				fmuMachine.getAttributes().addAll(environMachine.getAttributes());
+				fmuMachine = tasking.TaskingFactory.eINSTANCE
+						.createFMU_Machine();
+				fmuMachine.getAnnotations().addAll(
+						environMachine.getAnnotations());
+				fmuMachine.getAttributes().addAll(
+						environMachine.getAttributes());
 				fmuMachine.setGenerated(environMachine.isGenerated());
 				fmuMachine.setLocalGenerated(environMachine.isLocalGenerated());
 				fmuMachine.setPriority(environMachine.getPriority());
@@ -128,6 +132,7 @@ public final class CodeGenTaskingUtils {
 		extensions.remove(oldExtension);
 		extensions.add(fmuMachine);
 	}
+
 	public static Event getComposedEvent(
 			TaskingTranslationManager taskingTranslationManager,
 			String project, String machineName, String eventName) {
@@ -173,35 +178,39 @@ public final class CodeGenTaskingUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Adds the typing flag to an EventB element
-	 * @param element The element to add the attribute to.
-	 * @param typing True if to add Typing, false to add NonTyping
+	 * 
+	 * @param element
+	 *            The element to add the attribute to.
+	 * @param typing
+	 *            True if to add Typing, false to add NonTyping
 	 */
-	public static void addTaskingAttribute(EventBElement element, boolean typing)
-	{
+	public static void addTaskingAttribute(EventBElement element, boolean typing) {
 		Attribute typingAttribute = CoreFactory.eINSTANCE.createAttribute();
 		if (typing)
 			typingAttribute.setValue("Typing");
 		else
 			typingAttribute.setValue("NonTyping");
-	
-		element.getAttributes().add(new CGStringToAttributeMapEntry(CodeGenTasking.TYPING_ATTRIBUTE_IDENT,typingAttribute));
+
+		element.getAttributes()
+				.add(new CGStringToAttributeMapEntry(
+						CodeGenTasking.TYPING_ATTRIBUTE_IDENT, typingAttribute));
 	}
-	
-	public static boolean hasTypingAttribute(EventBElement element)
-	{
-		return element.getAttributes().contains(CodeGenTasking.TYPING_ATTRIBUTE_IDENT);
+
+	public static boolean hasTypingAttribute(EventBElement element) {
+		return element.getAttributes().contains(
+				CodeGenTasking.TYPING_ATTRIBUTE_IDENT);
 	}
-	
-	public static String getTypingAttribute(EventBElement element)
-	{
-		return (String)element.getAttributes().get(CodeGenTasking.TYPING_ATTRIBUTE_IDENT).getValue();
+
+	public static String getTypingAttribute(EventBElement element) {
+		return (String) element.getAttributes()
+				.get(CodeGenTasking.TYPING_ATTRIBUTE_IDENT).getValue();
 	}
-		
-	
-		public static class CGStringToAttributeMapEntry extends StringToAttributeMapEntryImpl {
+
+	public static class CGStringToAttributeMapEntry extends
+			StringToAttributeMapEntryImpl {
 		public CGStringToAttributeMapEntry(String string, Attribute attribute) {
 			this.setKey(string);
 			this.setValue(attribute);
@@ -209,61 +218,54 @@ public final class CodeGenTaskingUtils {
 
 	}
 
-
 	public static String getTypedVariable(String predicateString) {
-		//	Spaces are not always present between text and non-text
+		// Spaces are not always present between text and non-text
 		predicateString = makeSingleSpaceBetweenElements(predicateString);
-		predicateString = predicateString.trim();		
-		
+		predicateString = predicateString.trim();
+
 		if (predicateString.length() == 0)
 			return "";
-		
+
 		String lhs = predicateString.split(" ")[0];
-		
+
 		return lhs.trim();
-		
+
 	};
-	
-	public static String makeSingleSpaceBetweenElements(String predIn)
-	{
+
+	public static String makeSingleSpaceBetweenElements(String predIn) {
 		// first remove spaces
 		predIn = predIn.replace(" ", "");
-		
+
 		String pred = "";
-		
+
 		boolean lastNormal = true;
-		
-		for (char c : predIn.toCharArray())
-		{
-			
-			boolean currentNormal = ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ' || c == '_' || (c >= '0' && c<='9'));
-			
-			if (lastNormal && currentNormal)
-			{
-				//	do nothing special
-			}
-			else if (lastNormal && !currentNormal)
-			{
+
+		for (char c : predIn.toCharArray()) {
+			boolean currentNormal = ((c >= 'a' && c <= 'z')
+					|| (c >= 'A' && c <= 'Z') || c == ' ' 
+					|| c == '_' || (c >= '0' && c <= '9')
+					|| Character.toString(c).equals(CodeGenTaskingUtils.INT_SYMBOL)
+					|| Character.toString(c).equals(CodeGenTaskingUtils.BOOL_SYMBOL));
+
+			if (lastNormal && currentNormal) {
+				// do nothing special
+			} else if (lastNormal && !currentNormal) {
 				// add a space
 				pred += ' ';
-			}
-			else if (!lastNormal && currentNormal)
-			{
+			} else if (!lastNormal && currentNormal) {
 				// add a space
 				pred += ' ';
+			} else if (!lastNormal && !currentNormal) {
+				// do nothing special
 			}
-			else if (!lastNormal && !currentNormal)
-			{
-				//	do nothing special
-			}
-			
+
 			lastNormal = currentNormal;
 			pred += c;
 		}
-		
+
 		return pred;
 	}
-	
+
 	public static String extractFullExceptionMessage(Exception e) {
 		String initialMessage = e.getMessage() + "\n";
 		StackTraceElement[] stackTraceArray = e.getStackTrace();
