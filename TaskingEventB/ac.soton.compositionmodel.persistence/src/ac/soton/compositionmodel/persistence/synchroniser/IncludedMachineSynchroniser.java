@@ -54,7 +54,7 @@ public class IncludedMachineSynchroniser extends AbstractSynchroniser {
 			IIncludeMachine includeMachine = (IIncludeMachine) rodinElement;
 			
 			try {
-				includeMachine.getIncludedMachineName();
+				includeMachine.getIncludedMachine();
 			}
 			catch (RodinDBException e)
 			{			
@@ -95,7 +95,7 @@ public class IncludedMachineSynchroniser extends AbstractSynchroniser {
 			String machineName = eventBElement.getMachineName();			
 			String projectName = eventBElement.getProjectName();
 								
-			rodinIncludedMachine.setIncludedMachineName(machineName, monitor);
+			rodinIncludedMachine.setIncludedMachinePath(machineName, monitor);
 			rodinIncludedMachine.setIncludedProjectName(projectName, monitor);			
 		}
 		return rodinElement;
