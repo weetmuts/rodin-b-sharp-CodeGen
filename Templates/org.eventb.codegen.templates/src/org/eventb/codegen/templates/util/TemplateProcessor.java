@@ -169,7 +169,7 @@ public class TemplateProcessor {
 				e.printStackTrace();
 			}
 		}
-		File f = new File(targetFolderPath + targetName + fileExtension);
+		File f = new File(targetFolderPath + targetName + "." + fileExtension);
 		if(!f.exists()){
 			try {
 				f.createNewFile();
@@ -181,7 +181,7 @@ public class TemplateProcessor {
 
 		
 		CodeFiler.getDefault().save(codeArray, targetFolderPath,
-				targetName + fileExtension, language);
+				targetName + "." +fileExtension, language);
 	}
 
 	// This takes a buffered reader (pointing to a template), and list of child
