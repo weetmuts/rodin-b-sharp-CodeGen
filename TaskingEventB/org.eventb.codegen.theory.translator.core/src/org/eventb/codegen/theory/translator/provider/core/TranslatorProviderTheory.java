@@ -23,7 +23,9 @@ import org.eventb.core.ast.FormulaFactory;
 import org.eventb.core.ast.ITypeEnvironment;
 import org.eventb.theory.core.IDeployedTheoryRoot;
 import org.eventb.theory.core.ISCMetavariable;
+import org.eventb.theory.core.ITheoryPathRoot;
 import org.eventb.theory.core.IUseTheory;
+import org.eventb.theory.core.basis.TheoryPathRoot;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinProject;
 import org.rodinp.core.RodinDBException;
@@ -37,6 +39,7 @@ public class TranslatorProviderTheory extends AbstractTranslatorProvider {
 	private List<IDeployedTheoryRoot> deployRootList = new ArrayList<IDeployedTheoryRoot>();
 	private final IInternalElementType<IDeployedTheoryRoot> rootElementType = IDeployedTheoryRoot.ELEMENT_TYPE;
 
+	
 	/**
 	 *
 	 */
@@ -60,6 +63,9 @@ public class TranslatorProviderTheory extends AbstractTranslatorProvider {
 		// get the list of theories
 		if(rodinProj!=null)
 			deployRootList.addAll(Arrays.asList(rodinProj.getRootElementsOfType(rootElementType)));
+		
+		
+		// project.getRodinProject().getRootElementsOfType(theoryPath_);
 		
 		List<IDeployedTheoryRoot> arr = new ArrayList<IDeployedTheoryRoot>();
 		
