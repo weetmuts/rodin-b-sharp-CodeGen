@@ -17,6 +17,22 @@
       %license
    </license>
 
+   <includes
+         id="org.eventb.emf.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eventb.theory.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="ch.ethz.eventb.decomposition_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="ac.soton.composition_feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eventb.emf.core" version="2.2.4" match="greaterOrEqual"/>
       <import plugin="ch.ethz.eventb.decomposition.ui" version="1.2.0" match="greaterOrEqual"/>
