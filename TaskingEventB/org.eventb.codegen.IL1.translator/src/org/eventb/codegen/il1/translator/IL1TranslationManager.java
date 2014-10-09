@@ -885,6 +885,9 @@ public class IL1TranslationManager {
 		if (projectName != null && machineName != null) {
 			IEventBRoot sourceRoot = getSourceRoot(projectName, machineName);
 			ITypeEnvironment typeEnvironment = getTypeEnv(sourceRoot, eventName);
+			if(typeEnvironment == null){
+				typeEnvironment = defaultTypeEnvironment;
+			}
 
 			List<ITranslationRule> relevantTranslatorRules = getRelevantTranslatorRules(sourceRoot);
 			// ITypeEnvironment typeEnvironment =
@@ -986,6 +989,9 @@ public class IL1TranslationManager {
 		// TranslatorUtils.log("relevantTranslatorTypeRules="+relevantTranslatorTypeRules.toString(),IStatus.INFO);
 		IL1FormulaTypeRulesVisitor il1FormulaVisitor;
 		ITypeEnvironment typeEnvironment = getTypeEnv(sourceRoot, null);
+		if(typeEnvironment == null){
+			typeEnvironment = defaultTypeEnvironment;
+		}
 		il1FormulaVisitor = new IL1FormulaTypeRulesVisitor(identifier,
 				typeOrInitialValue, typeEnvironment,
 				relevantTranslatorTypeRules, issueMessages);

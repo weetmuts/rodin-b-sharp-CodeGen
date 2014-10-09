@@ -15,7 +15,11 @@ import org.eventb.emf.core.machine.Event;
 import org.eventb.emf.core.machine.impl.MachineImpl;
 import org.rodinp.keyboard.RodinKeyboardPlugin;
 
+import tasking.AutoTask_Machine;
+import tasking.Environ_Machine;
+import tasking.FMU_Machine;
 import tasking.MachineType;
+import tasking.Shared_Machine;
 import ac.soton.compositionmodel.core.compositionmodel.CombinedEventMachine;
 import ac.soton.compositionmodel.core.compositionmodel.ComposedEvent;
 import ac.soton.compositionmodel.core.compositionmodel.ComposedMachine;
@@ -52,12 +56,17 @@ public final class CodeGenTaskingUtils {
 			.translate("BOOL");
 
 	public static MachineType getTaskType(final MachineImpl machine) {
+		if(machine == null){
+			System.out.println();
+			return null;
+		}
 		for (AbstractExtension eObj : machine.getExtensions()) {
 			if (eObj instanceof tasking.Task
-					|| eObj instanceof tasking.AutoTask_Machine
-					|| eObj instanceof tasking.Shared_Machine
-					|| eObj instanceof tasking.Environ_Machine
-					|| eObj instanceof tasking.FMU_Machine) {
+					|| eObj instanceof AutoTask_Machine
+					|| eObj instanceof Shared_Machine
+					|| eObj instanceof Environ_Machine
+					|| eObj instanceof FMU_Machine
+					) {
 				return (MachineType) eObj;
 			}
 		}

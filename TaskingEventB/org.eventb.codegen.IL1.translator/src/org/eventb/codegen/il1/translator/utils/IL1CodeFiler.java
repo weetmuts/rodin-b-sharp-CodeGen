@@ -24,7 +24,7 @@ public class IL1CodeFiler extends CodeFiler {
 		if(isJava) formatterType = FormatterType.JAVA;
 		else if(isC) formatterType = FormatterType.C;
 		// Format the code and save
-		doSave(codeToSave, directoryPath, filename, formatterType);
+		formatAndSave(codeToSave, directoryPath, filename, formatterType);
 	}
 
 }
