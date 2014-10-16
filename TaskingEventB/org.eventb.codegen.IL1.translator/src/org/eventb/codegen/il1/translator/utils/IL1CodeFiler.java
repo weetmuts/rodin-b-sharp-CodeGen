@@ -21,6 +21,7 @@ public class IL1CodeFiler extends CodeFiler {
 		
 		boolean isJava = translationManager.getCurrentTranslationTarget().isCoreLanguage("java");
 		boolean isC = translationManager.getCurrentTranslationTarget().isCoreLanguage("fmi_c");
+		isC = isC || translationManager.getCurrentTranslationTarget().isCoreLanguage("c");
 		if(isJava) formatterType = FormatterType.JAVA;
 		else if(isC) formatterType = FormatterType.C;
 		// Format the code and save

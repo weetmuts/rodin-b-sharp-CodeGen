@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
@@ -63,28 +64,32 @@ public class CodeFiler {
 
 	protected void formatAndSave(List<String> codeToSave, String directoryName,
 			String filename, FormatterType formatterType) {
-
-		org.eclipse.jdt.core.formatter.CodeFormatter javaCodeFormatter = org.eclipse.jdt.core.ToolFactory
-				.createCodeFormatter(null);
-		org.eclipse.cdt.core.formatter.CodeFormatter C_CodeFormatter = org.eclipse.cdt.core.ToolFactory
-				.createCodeFormatter(null);
-
 		StringBuffer code = new StringBuffer();
 		for (String s : codeToSave) {
 			code.append(s + "\n");
 		}
-
 		TextEdit textEdit = null;
-
+		Properties properties = System.getProperties();
+		boolean isLinux = properties.get("os.name").equals("Linux");
+		// case of Linux with C formatting
+		if(isLinux){
+				if (formatterType == FormatterType.C) {
+					org.eclipse.cdt.core.formatter.CodeFormatter C_CodeFormatter = org.eclipse.cdt.core.ToolFactory
+							.createCodeFormatter(null);
+					textEdit = C_CodeFormatter.format(
+							org.eclipse.cdt.core.formatter.CodeFormatter.K_UNKNOWN,
+							code.toString(), 0, code.length(), 0, null);
+				}		
+			
+		}
+		// case of any OS with Java
 		if (formatterType == FormatterType.JAVA) {
+			org.eclipse.jdt.core.formatter.CodeFormatter javaCodeFormatter = org.eclipse.jdt.core.ToolFactory
+					.createCodeFormatter(null);
 			textEdit = javaCodeFormatter.format(
 					org.eclipse.jdt.core.formatter.CodeFormatter.K_UNKNOWN,
 					code.toString(), 0, code.length(), 0, null);
-		} else if (formatterType == FormatterType.C) {
-			textEdit = C_CodeFormatter.format(
-					org.eclipse.cdt.core.formatter.CodeFormatter.K_UNKNOWN,
-					code.toString(), 0, code.length(), 0, null);
-		}
+		} 
 		IDocument doc = new Document(code.toString());
 		try {
 			if (textEdit != null) {
