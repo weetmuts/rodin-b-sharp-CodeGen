@@ -18,7 +18,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eventb.core.ast.extensions;bundle-version="2.0.0",
  org.eclipse.jdt.core;bundle-version="3.7.3",
  org.eclipse.text;bundle-version="3.5.101",
- org.eclipse.cdt.core;bundle-version="5.3.2";resolution:=optional,
  org.eventb.codegen.templates;bundle-version="0.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

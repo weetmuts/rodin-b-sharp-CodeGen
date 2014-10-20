@@ -72,6 +72,9 @@ public class CodeFiler {
 		Properties properties = System.getProperties();
 		boolean isLinux = properties.get("os.name").equals("Linux");
 		// case of Linux with C formatting
+		
+		// Begin: comment the following code for a windows build of the VHDL Generator
+		////!!!!!!>>>>>
 		if(isLinux){
 				if (formatterType == FormatterType.C) {
 					org.eclipse.cdt.core.formatter.CodeFormatter C_CodeFormatter = org.eclipse.cdt.core.ToolFactory
@@ -80,8 +83,11 @@ public class CodeFiler {
 							org.eclipse.cdt.core.formatter.CodeFormatter.K_UNKNOWN,
 							code.toString(), 0, code.length(), 0, null);
 				}		
-			
 		}
+		////!!!!!!<<<<<<<
+		// End: comment the following code for a windows build of the VHDL Generator
+		
+		
 		// case of any OS with Java
 		if (formatterType == FormatterType.JAVA) {
 			org.eclipse.jdt.core.formatter.CodeFormatter javaCodeFormatter = org.eclipse.jdt.core.ToolFactory
