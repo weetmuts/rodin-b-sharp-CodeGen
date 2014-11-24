@@ -1,11 +1,11 @@
 package org.eventb.autoTaskMachine.persistence.synchroniser;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IShared_Machine;
 import org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
+import org.rodinp.core.RodinDBException;
 
 import tasking.Shared_Machine;
 import tasking.Tasking_Machine;
@@ -45,7 +45,7 @@ public class Shared_MachineSynchroniser extends MachineTypeSynchroniser  {
 //	}
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		Shared_Machine eventBElement = (Shared_Machine) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IShared_Machine)
@@ -58,7 +58,7 @@ public class Shared_MachineSynchroniser extends MachineTypeSynchroniser  {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IShared_Machine && emfElement instanceof Tasking_Machine) 

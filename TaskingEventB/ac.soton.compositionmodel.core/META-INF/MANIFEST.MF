@@ -7,9 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eventb.emf.core;bundle-version="2.2.3"
+Require-Bundle: org.eventb.emf.core;bundle-version="[2.2.5,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: ac.soton.compositionmodel.core.compositionmodel,
  ac.soton.compositionmodel.core.compositionmodel.impl,

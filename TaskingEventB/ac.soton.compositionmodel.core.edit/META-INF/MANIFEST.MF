@@ -9,13 +9,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ac.soton.compositionmodel.core.compositionmodel.provider
-Require-Bundle: org.eclipse.core.runtime,
- ac.soton.compositionmodel.core;visibility:=reexport,
- org.eventb.emf.core;bundle-version="2.2.4",
- org.eclipse.emf.edit,
- org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.edit,
- ch.ethz.eventb.decomposition.ui;bundle-version="1.2.0",
- ch.ethz.eventb.decomposition.core;bundle-version="1.2.1",
- ch.ethz.eventb.decomposition;bundle-version="1.2.2"
+Require-Bundle: ac.soton.compositionmodel.core;bundle-version="[0.0.1,1.0.0)";visibility:=reexport,
+ org.eventb.emf.core;bundle-version="[2.2.4,3.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)"
 Bundle-ActivationPolicy: lazy

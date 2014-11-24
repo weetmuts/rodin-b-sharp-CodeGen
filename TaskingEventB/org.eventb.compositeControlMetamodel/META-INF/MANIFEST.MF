@@ -10,9 +10,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: compositeControl,
  compositeControl.impl,
  compositeControl.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eventb.emf.core;visibility:=reexport,
- ac.soton.compositionmodel.core;bundle-version="0.0.1"
+Require-Bundle: org.eventb.emf.core;bundle-version="[2.2.5,3.0.0)";visibility:=reexport,
+ ac.soton.compositionmodel.core;bundle-version="[0.0.1,1.0.0)"
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.core.runtime,
- org.rodinp.core

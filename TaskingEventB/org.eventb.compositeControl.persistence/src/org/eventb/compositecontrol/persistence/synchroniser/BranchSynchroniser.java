@@ -3,7 +3,6 @@ package org.eventb.compositecontrol.persistence.synchroniser;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.compositecontrol.persistence.IBranch;
@@ -11,6 +10,7 @@ import org.eventb.emf.core.CorePackage;
 import org.eventb.emf.core.EventBElement;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IRodinElement;
+import org.rodinp.core.RodinDBException;
 
 import tasking.Task;
 import tasking.TaskingPackage;
@@ -51,7 +51,7 @@ public class BranchSynchroniser  extends EMFToTaskBodySynchroniser  {
 	}
 	
 //	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		
 		if (canLoad(emfParent))
 		{

@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.codegen.taskbodybuilder.ParseException;
@@ -104,7 +103,7 @@ public class TaskBodySynchroniser extends AbstractSynchroniser {
 	 */
 	public <T extends EventBElement> EventBElement load(
 			IRodinElement rodinElement, EventBElement emfParent,
-			IProgressMonitor monitor) throws CoreException 
+			IProgressMonitor monitor) throws RodinDBException 
 	{
 		if (rodinElement instanceof ITaskBody && emfParent instanceof TaskImpl)
 		{

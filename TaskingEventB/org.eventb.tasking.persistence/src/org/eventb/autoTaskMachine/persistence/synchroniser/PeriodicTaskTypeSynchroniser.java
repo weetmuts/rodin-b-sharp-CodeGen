@@ -1,11 +1,11 @@
 package org.eventb.autoTaskMachine.persistence.synchroniser;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IPeriodicTaskType;
 import org.eventb.tasking.persistence.synchroniser.TaskTypeSynchroniser;
 import org.rodinp.core.IRodinElement;
+import org.rodinp.core.RodinDBException;
 
 import tasking.PeriodicTaskType;
 
@@ -40,7 +40,7 @@ public class PeriodicTaskTypeSynchroniser extends TaskTypeSynchroniser {
 	
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		PeriodicTaskType eventBElement = (PeriodicTaskType) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IPeriodicTaskType)
@@ -54,7 +54,7 @@ public class PeriodicTaskTypeSynchroniser extends TaskTypeSynchroniser {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IPeriodicTaskType && emfElement instanceof PeriodicTaskType) 

@@ -10,9 +10,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: tasking,
  tasking.impl,
  tasking.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eventb.compositeControlMetamodel;visibility:=reexport,
- org.eventb.emf.core;visibility:=reexport,
- ac.soton.compositionmodel.core;bundle-version="0.0.1"
+Require-Bundle: org.eventb.compositeControlMetamodel;bundle-version="[0.0.3,1.0.0)";visibility:=reexport,
+ ac.soton.compositionmodel.core;bundle-version="[0.0.1,1.0.0)"
 Bundle-ActivationPolicy: lazy

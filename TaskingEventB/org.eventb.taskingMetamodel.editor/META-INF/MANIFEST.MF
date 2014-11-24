@@ -10,14 +10,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: tasking.presentation
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources;visibility:=reexport,
  org.eventb.taskingMetamodel.edit;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.emf.edit.ui;visibility:=reexport,
- org.eclipse.ui.ide;visibility:=reexport,
- org.eventb.compositeControlMetamodel.edit;visibility:=reexport,
- org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.eventb.emf.core;visibility:=reexport,
- ac.soton.compositionmodel.core;bundle-version="0.0.1",
  ac.soton.compositionmodel.core.editor;bundle-version="0.0.1"
 Bundle-ActivationPolicy: lazy

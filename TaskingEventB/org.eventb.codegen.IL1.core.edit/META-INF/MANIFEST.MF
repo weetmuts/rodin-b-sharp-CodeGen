@@ -11,11 +11,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eventb.codegen.il1.RequiredFormula.provider,
  org.eventb.codegen.il1.RequiredMetadata.provider,
  org.eventb.codegen.il1.provider
-Require-Bundle: org.eclipse.core.runtime,
- org.eventb.codegen.IL1.core;visibility:=reexport,
- org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.eventb.emf.core;visibility:=reexport,
- org.eventb.emf.formulas;visibility:=reexport
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
+ org.eventb.codegen.IL1.core;bundle-version="[0.0.3,1.0.0)";visibility:=reexport,
+ org.eventb.emf.formulas;bundle-version="[1.3.1,2.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy

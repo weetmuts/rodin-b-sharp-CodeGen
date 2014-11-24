@@ -3,7 +3,6 @@ package org.eventb.autoTaskMachine.persistence.synchroniser;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.emf.core.CorePackage;
@@ -13,6 +12,7 @@ import org.eventb.tasking.persistence.ITasking_Machine;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IInternalElementType;
 import org.rodinp.core.IRodinElement;
+import org.rodinp.core.RodinDBException;
 
 import tasking.TaskingFactory;
 import tasking.Tasking_Machine;
@@ -46,7 +46,7 @@ public class Tasking_MachineSynchroniser extends AbstractSynchroniser  {
 	}
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		Tasking_Machine eventBElement = (Tasking_Machine) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof ITasking_Machine)
@@ -60,7 +60,7 @@ public class Tasking_MachineSynchroniser extends AbstractSynchroniser  {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof ITasking_Machine && emfElement instanceof Tasking_Machine) 

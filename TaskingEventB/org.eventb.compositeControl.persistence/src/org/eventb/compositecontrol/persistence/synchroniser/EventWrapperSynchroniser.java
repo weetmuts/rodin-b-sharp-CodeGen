@@ -11,10 +11,10 @@ import org.eventb.emf.core.CorePackage;
 import org.eventb.emf.core.EventBElement;
 import org.rodinp.core.IAttributeType;
 import org.rodinp.core.IRodinElement;
+import org.rodinp.core.RodinDBException;
 
 import tasking.Task;
 import tasking.TaskingPackage;
-
 import compositeControl.Branch;
 import compositeControl.CompositeControlFactory;
 import compositeControl.CompositeControlPackage;
@@ -54,7 +54,7 @@ public class EventWrapperSynchroniser extends EMFToTaskBodySynchroniser  {
 	}
 	
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
 		if (canLoad(emfParent))
 		{
 	//		Reset feature type to default
