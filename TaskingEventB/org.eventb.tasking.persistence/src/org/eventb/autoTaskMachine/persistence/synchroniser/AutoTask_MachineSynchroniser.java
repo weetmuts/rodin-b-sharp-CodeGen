@@ -8,6 +8,7 @@
 
 package org.eventb.autoTaskMachine.persistence.synchroniser;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eventb.emf.core.EventBElement;
 import org.eventb.tasking.persistence.IAutoTask_Machine;
@@ -37,7 +38,7 @@ public class AutoTask_MachineSynchroniser extends MachineTypeSynchroniser {
 	 *  (non-Javadoc)
 	 * @see org.eventb.tasking.persistence.synchroniser.MachineTypeSynchroniser#load(org.rodinp.core.IRodinElement, org.eventb.emf.core.EventBElement, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
 		AutoTask_Machine eventBElement = (AutoTask_Machine) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IAutoTask_Machine)
@@ -54,7 +55,7 @@ public class AutoTask_MachineSynchroniser extends MachineTypeSynchroniser {
 	/**
 	 * This will be called when an AutoTask EMF object is saved. 
 	 */
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IAutoTask_Machine && emfElement instanceof AutoTask_Machine) 

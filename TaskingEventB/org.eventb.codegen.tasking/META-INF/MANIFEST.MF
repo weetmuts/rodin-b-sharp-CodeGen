@@ -8,10 +8,10 @@ Bundle-Vendor: University of Southampton
 Require-Bundle: org.eventb.codegen.IL1.core;bundle-version="[0.0.3,1.0.0)",
  org.eventb.taskingMetamodel;bundle-version="[0.1.4,1.0.0)",
  ac.soton.compositionmodel.core;bundle-version="[0.0.1,1.0.0)",
- org.eventb.emf.persistence;bundle-version="[2.5.0,3.0.0)",
+ org.eventb.emf.persistence;bundle-version="[3.0.0,4.0.0)",
  ac.soton.composition.core;bundle-version="[1.6.2,2.0.0)",
  org.rodinp.keyboard;bundle-version="[1.2.0,2.0.0)",
- ac.soton.eventb.statemachines;bundle-version="[1.2.1,2.0.0)",
+ ac.soton.eventb.statemachines;bundle-version="[2.0.0,3.0.0)",
  org.eventb.ui;bundle-version="[2.6.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

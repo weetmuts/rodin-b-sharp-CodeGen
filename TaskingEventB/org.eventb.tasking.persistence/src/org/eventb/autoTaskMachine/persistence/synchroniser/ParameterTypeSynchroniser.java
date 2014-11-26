@@ -3,6 +3,7 @@ package org.eventb.autoTaskMachine.persistence.synchroniser;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.emf.core.CorePackage;
@@ -46,7 +47,7 @@ public class ParameterTypeSynchroniser extends AbstractSynchroniser {
 	}
 
 	@Override
-	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws RodinDBException {
+	public <T extends EventBElement> EventBElement load(IRodinElement rodinElement, EventBElement emfParent,IProgressMonitor monitor) throws CoreException {
 		ParameterType eventBElement = (ParameterType) super.load(rodinElement, emfParent, monitor);
 		
 		if (rodinElement instanceof IParameterType)
@@ -61,7 +62,7 @@ public class ParameterTypeSynchroniser extends AbstractSynchroniser {
 	}
 
 	@Override
-	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(EventBElement emfElement, IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException {
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);
 		
 		if (rodinElement instanceof IParameterType && emfElement instanceof ParameterType) 

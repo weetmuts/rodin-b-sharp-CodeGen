@@ -5,6 +5,7 @@ import static org.eventb.tasking.persistence.TaskingAttributes.MACHINE_TYPE_ATTR
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.emf.core.CorePackage;
@@ -97,7 +98,7 @@ public class MachineTypeSynchroniser extends AbstractSynchroniser {
 	 */
 	public <T extends EventBElement> EventBElement load(
 			IRodinElement rodinElement, EventBElement emfParent,
-			IProgressMonitor monitor) throws RodinDBException {
+			IProgressMonitor monitor) throws CoreException {
 	
 		if (rodinElement instanceof IMachineType )
 		{
@@ -137,7 +138,7 @@ public class MachineTypeSynchroniser extends AbstractSynchroniser {
 	 * This will be called by the AutoTask, Protected or Environ synchroniser save call.
 	 */
 	public IRodinElement save(EventBElement emfElement,
-			IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException{
+			IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException{
 		
 		if (emfElement instanceof AutoTask_MachineImpl)
 		{

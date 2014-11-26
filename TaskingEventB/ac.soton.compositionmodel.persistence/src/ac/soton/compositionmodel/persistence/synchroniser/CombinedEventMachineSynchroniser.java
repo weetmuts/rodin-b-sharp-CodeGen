@@ -3,6 +3,7 @@ package ac.soton.compositionmodel.persistence.synchroniser;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.core.IEvent;
@@ -46,7 +47,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	
 	
 	
-	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws RodinDBException {
+	public EventBElement load(final IRodinElement rodinElement, final EventBElement emfParent, final IProgressMonitor monitor) throws CoreException {
 		// create EMF node
 		CombinedEventMachine eventBElement = (CombinedEventMachine) super.load(rodinElement, emfParent, monitor);
 		if (rodinElement instanceof ICombinedEventInfo) {
@@ -100,7 +101,7 @@ public class CombinedEventMachineSynchroniser extends AbstractSynchroniser {
 	}
 	
 	
-	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws RodinDBException {
+	public IRodinElement save(final EventBElement emfElement, final IRodinElement rodinParent, final IProgressMonitor monitor) throws CoreException {
 
 		// create Rodin element
 		IRodinElement rodinElement = super.save(emfElement, rodinParent, monitor);

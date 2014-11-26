@@ -3,4 +3,4 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.soton.compositionalmodel.emf.skeleton
 Bundle-SymbolicName: ac.soton.compositionmodel.emf.structure
 Bundle-Version: 0.1.0
-Require-Bundle: org.eclipse.emf.ecore
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.7.0,3.0.0)"

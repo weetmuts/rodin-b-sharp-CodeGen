@@ -9,7 +9,7 @@ Bundle-Vendor: University of Southampton
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: tasking.presentation
-Require-Bundle: org.eclipse.core.runtime,
- org.eventb.taskingMetamodel.edit;visibility:=reexport,
- ac.soton.compositionmodel.core.editor;bundle-version="0.0.1"
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
+ org.eventb.taskingMetamodel.edit;bundle-version="[0.1.3,1.0.0)";visibility:=reexport,
+ ac.soton.compositionmodel.core.editor;bundle-version="[0.0.1,1.0.0)"
 Bundle-ActivationPolicy: lazy

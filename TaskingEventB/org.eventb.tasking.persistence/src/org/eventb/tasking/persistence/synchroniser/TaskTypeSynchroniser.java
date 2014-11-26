@@ -6,6 +6,7 @@ import static org.eventb.tasking.persistence.impl.TaskType.SIMPLE_TASK_TYPE;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eventb.emf.core.EventBElement;
@@ -70,7 +71,7 @@ public class TaskTypeSynchroniser extends AbstractSynchroniser {
 	@Override
 	public <T extends EventBElement> EventBElement load(
 			IRodinElement rodinElement, EventBElement emfParent,
-			IProgressMonitor monitor) throws RodinDBException {
+			IProgressMonitor monitor) throws CoreException {
 		
 		//	Only load this element if the parent is a Task
 		//	Otherwise if a change is made by accident from AutoTask to Shared
@@ -142,7 +143,7 @@ public class TaskTypeSynchroniser extends AbstractSynchroniser {
 	
 	@Override
 	public IRodinElement save(EventBElement emfElement,
-			IRodinElement rodinParent, IProgressMonitor monitor) throws RodinDBException{
+			IRodinElement rodinParent, IProgressMonitor monitor) throws CoreException{
 		
 			//	Set the rodin type to the real type
 			if (emfElement instanceof SimpleTaskTypeImpl)
