@@ -11,7 +11,6 @@ import org.eventb.codegen.tasking.AbstractTaskingTranslator;
 import org.eventb.codegen.tasking.TaskingTranslationException;
 import org.eventb.codegen.tasking.TaskingTranslationManager;
 import org.eventb.emf.core.EventBElement;
-import org.eventb.emf.core.machine.Event;
 
 import compositeControl.EventWrapper;
 
@@ -95,13 +94,13 @@ public class SeqTaskingTranslator extends AbstractTaskingTranslator {
 		return out;
 	}
 
-	protected boolean makeInline(Event e) {
-		if (e != null) {
-			if (MachineTaskingTranslator.isProcedureDefSynch(e)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
+//	protected boolean makeInline(Event e) {
+//		if (e != null) {
+//			if (MachineTaskingTranslator.isProcedureDefSynch(e)) {
+//				return false;
+//			}
+//		}
+//
+//		return true;
+//	}
 }

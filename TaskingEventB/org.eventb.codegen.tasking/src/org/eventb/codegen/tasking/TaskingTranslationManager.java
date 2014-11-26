@@ -74,7 +74,6 @@ import ac.soton.eventb.statemachines.AbstractNode;
 import ac.soton.eventb.statemachines.State;
 import ac.soton.eventb.statemachines.Statemachine;
 import ac.soton.eventb.statemachines.Transition;
-
 import compositeControl.CompositeControl;
 
 /**
@@ -805,18 +804,37 @@ public class TaskingTranslationManager {
 //	}
 
 	public IL1Element recoverPreviousTranslation(Event source) {
-		return recoverPreviousTranslation(source.getURI() + "/"
-				+ source.getName());
+		boolean isProxy = source.eIsProxy();
+		String id = source.getURI() + "/" + source.getName();
+		// the retrieval does not appear to work. The wrong name is
+		// being used. Don't know what has changed to make it stop working.
+		if(isProxy){
+			String firstPart = id.substring(0, id.indexOf("#"));
+			String lastPart = id.substring(id.lastIndexOf("/"));
+			id = firstPart + lastPart;
+		}
+
+		
+		return recoverPreviousTranslation(id);
 	}
 
 	public boolean previousTranslationExists(Event source) {
+		boolean isProxy = source.eIsProxy();
 		String id = source.getURI() + "/" + source.getName();
+		// the retrieval does not appear to work. The wrong name is
+		// being used. Don't know what has changed to make it stop working.
+		if(isProxy){
+			String firstPart = id.substring(0, id.indexOf("#"));
+			String lastPart = id.substring(id.lastIndexOf("/"));
+			id = firstPart + lastPart;
+		}
+		
 		return storedElementMap.containsKey(id);
 	}
 
-	public void addPreviousTranslation(Event source, Subroutine translation) {
-		storedElementMap.put(source.getURI() + "/" + source.getName(),
-				translation);
+	public void addPreviousTranslation(Event source, Subroutine translation) {		
+		String id = source.getURI() + "/" + source.getName();
+		storedElementMap.put(id,translation);
 	}
 
 	public IL1Element recoverPreviousTranslation(String reference) {

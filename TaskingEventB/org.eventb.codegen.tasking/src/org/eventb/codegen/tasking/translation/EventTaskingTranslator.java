@@ -70,8 +70,9 @@ public class EventTaskingTranslator extends AbstractTaskingTranslator {
 		boolean doNotRecover = doNotRecoverList.contains(actualSource);
 
 		// If still a proxy, look for the actual translation
+		boolean previousTranslationExists = translationManager.previousTranslationExists(actualSource);
 		if (!doNotRecover
-				&& translationManager.previousTranslationExists(actualSource)) {
+				&& previousTranslationExists) {
 			// To ensure the proxy isn't saved
 			wasProxy = true;
 
