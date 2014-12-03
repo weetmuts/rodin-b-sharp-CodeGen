@@ -37,23 +37,23 @@ public abstract class AbstractTaskIL1Translator extends AbstractIL1Translator {
 		ArrayList<ArrayList<String>> declList = new ArrayList<ArrayList<String>>();
 		for (Declaration decl : actualSource.getDecls())
 		{
-			ArrayList<String> declStr = translationManager.translateIL1ElementToCode(decl, targetLanguage);
+			ArrayList<String> declStringList = translationManager.translateIL1ElementToCode(decl, targetLanguage);
 			ArrayList<String> enumNames = translationManager.getEnumTypeNameList();
 			// if this declared type is an enum, we add a suffix
 			String declType = decl.getType();
 			if(enumNames.contains(declType)){
 				// get the declaration from the returned array. An var with an enum type should be the first
 				// in the list
-				String thisDecl = declStr.get(0);
+				String thisDecl = declStringList.get(0);
 				// add the suffix
 				int insertAt = thisDecl.lastIndexOf(declType)+declType.length();
 				String firstPart = thisDecl.substring(0, insertAt);
 				String lastPart = thisDecl.substring(insertAt);
-				declStr.remove(0);
-				declStr.add(firstPart+"Enum"+lastPart);
+				declStringList.remove(0);
+				declStringList.add(firstPart+"Enum"+lastPart);
 				
 			}
-			declList.add(declStr);
+			declList.add(declStringList);
 		}
 		
 		//	Translate the subroutines.

@@ -42,6 +42,9 @@ public class CVariableTranslator extends AbstractVariableIL1Translator {
 			CTranslatorUtils utils = new CTranslatorUtils();
 			s = utils.updateVariableName(s, actualSource, translationManager);
 
+			if(decl.getType() != null){
+				s = decl.getType() + " " +s;
+			}			
 			outCode.add(s);
 		}
 				

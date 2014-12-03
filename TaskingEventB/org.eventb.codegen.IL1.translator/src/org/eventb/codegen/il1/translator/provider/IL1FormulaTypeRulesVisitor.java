@@ -166,7 +166,12 @@ public class IL1FormulaTypeRulesVisitor extends AbstractIL1FormulaRuleVisitor {
 
 	@Override
 	public void visitIntegerLiteral(IntegerLiteral expression) {
+		// was:
 		// Do nothing
+		// :: how on earth did this 'ever' work ??
+		
+		// now set the outputFormula to the literal value
+		outputFormula = expression.getValue().toString();
 	}
 
 	@Override
@@ -191,7 +196,12 @@ public class IL1FormulaTypeRulesVisitor extends AbstractIL1FormulaRuleVisitor {
 
 	@Override
 	public void visitFreeIdentifier(FreeIdentifier identifierExpression) {
+		// was:
 		// Do nothing
+		// :: how on earth did this 'ever' work ??
+		
+		// now set the outputFormula to the identifier string
+		outputFormula = identifierExpression.getName();
 	}
 
 	@Override
