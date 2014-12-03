@@ -45,7 +45,7 @@ public class CVariableTranslator extends AbstractVariableIL1Translator {
 			if(decl.getType() != null){
 				s = decl.getType() + " " +s;
 			}			
-			outCode.add(s);
+			outCode.add(s + ";");
 		}
 				
 		return outCode;
