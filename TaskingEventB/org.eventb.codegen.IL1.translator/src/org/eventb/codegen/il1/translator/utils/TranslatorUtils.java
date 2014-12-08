@@ -30,6 +30,41 @@ import org.rodinp.core.RodinDBException;
  *
  */
 public class TranslatorUtils {
+	
+	// returns true if the string contains only asii characters
+	public static boolean isASCII_only(String outputFormula) {
+		return outputFormula.matches("\\A\\p{ASCII}*\\z");
+	}
+
+	// replace the * unicode (\u2217) character with 
+	// the * ASCII character (\x2a)
+	public static String removeUnicode(String outputFormula) {
+		char[] oldCharArray = outputFormula.toCharArray();
+		String newOutputFormula = new String();
+		// for each character
+		for (int i = 0; i < oldCharArray.length; i++) {
+			// if the character is not ascii 
+			if (((int) oldCharArray[i]) > 127) {
+				// and if it is the unicode *
+				if(oldCharArray[i] == '\u2217'){
+					// add an ASCII * to the output
+					newOutputFormula = newOutputFormula + "*";
+				}
+				else{
+					// Else add the unicode char back.
+					// This is where a handler might appear,
+					// for other characters needing replacement
+					newOutputFormula = newOutputFormula + oldCharArray[i];
+				}
+			}else{
+				// Else we have an ASCII character to add to the formula
+				newOutputFormula = newOutputFormula + oldCharArray[i];
+			}
+		}
+		// return the new formula
+		return newOutputFormula;
+	}
+
 
 	public static String surroundWithParentheses(String input){
 		return "("+input+")";

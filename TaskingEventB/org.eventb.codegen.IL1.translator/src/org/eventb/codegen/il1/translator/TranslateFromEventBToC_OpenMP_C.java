@@ -1,6 +1,7 @@
 package org.eventb.codegen.il1.translator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eventb.codegen.il1.Program;
 import org.eventb.codegen.il1.translator.utils.IL1CodeFiler;
@@ -19,12 +20,12 @@ public class TranslateFromEventBToC_OpenMP_C extends AbstractTranslateEventBToTa
 	}
 
 	@Override
-	protected ArrayList<String> formatCode(ArrayList<String> code, IL1TranslationManager translationManager) {
+	protected List<String> formatCode(List<String> code, IL1TranslationManager translationManager) {
 		return formatCodeBraces(code);
 	}
 
 	@Override
-	protected void saveToFile(ArrayList<String> codeToSave,
+	protected void saveToFile(List<String> codeToSave,
 			ArrayList<ClassHeaderInformation> headerInformation,
 			Program program, String directoryName,
 			IL1TranslationManager translationManager) {
@@ -147,7 +148,7 @@ public class TranslateFromEventBToC_OpenMP_C extends AbstractTranslateEventBToTa
 		}
 	}
 	
-	protected int getCodeBlock(ArrayList<String> codeIn, int startIdx, String endStatement, ArrayList<String> codeOut)
+	protected int getCodeBlock(List<String> codeIn, int startIdx, String endStatement, ArrayList<String> codeOut)
 	{
 		int endIdx = startIdx;
 		for (int i = startIdx; i < codeIn.size() && !codeIn.get(i).equals(endStatement); i++, endIdx++)

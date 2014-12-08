@@ -2,6 +2,7 @@ package org.eventb.codegen.il1.translator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eventb.codegen.il1.Program;
@@ -19,7 +20,7 @@ public class TranslateFromEventBToAda extends AbstractTranslateEventBToTarget {
 	}
 
 	@Override
-	protected ArrayList<String> formatCode(ArrayList<String> code,
+	protected ArrayList<String> formatCode(List<String> code,
 			IL1TranslationManager translationManager) {
 		ArrayList<String> fcode = new ArrayList<String>();
 		StringBuffer with = new StringBuffer("with ");
@@ -128,7 +129,7 @@ public class TranslateFromEventBToAda extends AbstractTranslateEventBToTarget {
 	}
 
 	@Override
-	protected void saveToFile(ArrayList<String> codeToSave,
+	protected void saveToFile(List<String> codeToSave,
 			ArrayList<ClassHeaderInformation> headerInformation,
 			Program program, String directoryName,
 			IL1TranslationManager translationManager) {

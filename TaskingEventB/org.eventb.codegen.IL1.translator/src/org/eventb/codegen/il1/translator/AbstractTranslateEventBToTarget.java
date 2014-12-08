@@ -26,6 +26,7 @@ import org.eventb.codegen.il1.translator.core.AbstractProgramIL1Translator;
 import org.eventb.codegen.il1.translator.provider.AbstractTranslatorProvider;
 import org.eventb.codegen.il1.translator.provider.ITranslationRule;
 import org.eventb.codegen.il1.translator.provider.TranslatorProviderManager;
+import org.eventb.codegen.il1.translator.utils.TranslatorUtils;
 import org.eventb.codegen.tasking.CodeGenTasking;
 import org.eventb.codegen.tasking.RelevantMachineLoader;
 import org.eventb.codegen.tasking.TaskingTranslationException;
@@ -69,7 +70,7 @@ public abstract class AbstractTranslateEventBToTarget implements
 	 *            The translation manager incase it is required.
 	 * @return The correctly formatted code.
 	 */
-	protected abstract ArrayList<String> formatCode(ArrayList<String> code,
+	protected abstract List<String> formatCode(List<String> code,
 			IL1TranslationManager translationManager);
 
 	/**
@@ -86,7 +87,7 @@ public abstract class AbstractTranslateEventBToTarget implements
 	 * @param translationManager
 	 *            The IL1 to Code translation manager.
 	 */
-	protected abstract void saveToFile(ArrayList<String> codeToSave,
+	protected abstract void saveToFile(List<String> codeToSave,
 			ArrayList<ClassHeaderInformation> headerInformation,
 			Program program, String directoryName,
 			IL1TranslationManager translationManager);
@@ -110,9 +111,10 @@ public abstract class AbstractTranslateEventBToTarget implements
 			// Now to the code generation
 			IL1TranslationManager il1TranslationManager = new IL1TranslationManager();
 
-			il1TranslationManager.setCurrentTranslationTarget(getTargetLanguage());
+			il1TranslationManager
+					.setCurrentTranslationTarget(getTargetLanguage());
 
-			ArrayList<String> code = null;
+			List<String> code = null;
 
 			// Translation Rules
 			Map<IProject, List<ITranslationRule>> translationRules = loadTranslatorRules();
@@ -122,10 +124,29 @@ public abstract class AbstractTranslateEventBToTarget implements
 			Map<IProject, List<ITranslationRule>> translationTypeRules = loadTranslatorTypeRules();
 			il1TranslationManager.setTranslatorTypeRules(translationTypeRules);
 
-
 			code = il1TranslationManager.translateIL1ElementToCode(program,
 					getTargetLanguage());
 			code = formatCode(code, il1TranslationManager);
+
+			// for C we will remove unicode *
+			TargetLanguage translationTarget = il1TranslationManager
+					.getCurrentTranslationTarget();
+			boolean isC = translationTarget.getCoreLanguage().equals("c");
+			if (isC) {
+				List<String> processedCode = new ArrayList<String>();
+				for (String codeLine : code) {
+					// if there is non-ASCII characters in the line, replace if possible.
+					// The unicode * must be replaced by an ASCII *, for instance.
+					if (!TranslatorUtils.isASCII_only(codeLine)) {
+						codeLine = TranslatorUtils.removeUnicode(codeLine);
+						processedCode.add(codeLine);
+					} else {
+						processedCode.add(codeLine);
+					}
+				}
+				//
+				code = processedCode;
+			}
 
 			// Find the current directory from the first selected item
 			String directoryName = getFilePathFromSelected();
@@ -136,7 +157,6 @@ public abstract class AbstractTranslateEventBToTarget implements
 				throw new IL1TranslationException(
 						"Failed to find directory path in " + this);
 
-			
 			// make the interfaces
 			InterfaceGenerator interfaceGenerator = InterfaceGenerator
 					.getDefault();
@@ -337,7 +357,7 @@ public abstract class AbstractTranslateEventBToTarget implements
 	 *            The translated code to format.
 	 * @return The formatted code.
 	 */
-	protected ArrayList<String> formatCodeBraces(ArrayList<String> code) {
+	protected List<String> formatCodeBraces(List<String> code) {
 		ArrayList<String> formatted = new ArrayList<String>();
 
 		int nTabs = 0;

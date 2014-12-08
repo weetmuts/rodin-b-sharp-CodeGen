@@ -1,6 +1,7 @@
 package org.eventb.codegen.il1.translator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eventb.codegen.il1.Program;
 import org.eventb.codegen.il1.translator.utils.IL1CodeFiler;
@@ -13,12 +14,12 @@ public class TranslateFromEventBToCpp extends AbstractTranslateEventBToTarget {
 	}
 
 	@Override
-	protected ArrayList<String> formatCode(ArrayList<String> code, IL1TranslationManager translationManager) {
+	protected List<String> formatCode(List<String> code, IL1TranslationManager translationManager) {
 		return formatCodeBraces(code);
 	}
 
 	@Override
-	protected void saveToFile(ArrayList<String> codeToSave,
+	protected void saveToFile(List<String> codeToSave,
 			ArrayList<ClassHeaderInformation> headerInformation,
 			Program program, String directoryName,
 			IL1TranslationManager translationManager) {
