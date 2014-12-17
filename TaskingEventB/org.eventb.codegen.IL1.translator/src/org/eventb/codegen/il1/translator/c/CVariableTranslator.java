@@ -14,9 +14,23 @@ public class CVariableTranslator extends AbstractVariableIL1Translator {
 			String identifier, String initialisation, String machineName,
 			boolean isProtected) {
 
+		
 
 		if (initialisation != null && !initialisation.equals(""))
 		{
+			// if we have some kind of array we need to re-write the type expression.
+			if(type.contains("[")){
+				String oldType = type;
+				int openingIndex = oldType.indexOf("[");
+				int closingIndex = oldType.lastIndexOf("]");
+				type = oldType.substring(0, openingIndex);
+				String arraySizePart = oldType.substring(openingIndex, closingIndex+1);
+				return type + " " + identifier + "_" + machineName + arraySizePart +" = " + initialisation + ";";	
+				
+			}
+			
+			
+			
 			return type + " " + identifier + "_" + machineName + " = " + initialisation + ";";			
 		}
 		else
