@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eventb.codegen.il1.Program;
+import org.eventb.codegen.il1.translator.c.CTranslatorUtils;
 import org.eventb.codegen.il1.translator.utils.IL1CodeFiler;
 
 public class TranslateFromEventBToC_OpenMP_C extends
@@ -21,7 +22,38 @@ public class TranslateFromEventBToC_OpenMP_C extends
 	protected List<String> formatCode(List<String> code,
 			IL1TranslationManager translationManager) {
 		List<String> formatted1 = formatCodeBraces(code);
-		return formatted1;
+		List<String> formatted2 = formatBadArrayAssignments(formatted1);
+		return formatted2;
+	}
+
+	private List<String> formatBadArrayAssignments(List<String> code) {
+		List<String> formattedCodeArray = new ArrayList<String>();
+		
+		for(String line: code){
+			for(String arrayID : CTranslatorUtils.getArrayIDs()){
+				int index = line.indexOf(arrayID);
+				if(index != -1){
+					// We have a line of code with an arrayID.
+					
+					// We assume only one array assignment is being done;
+					// so the arrayID search loop quits when an arrayID is found.
+					
+					// If we have an incorrect translation, the arrayID 
+					// will NOT be followed by the opening bracket. 
+					if(line.charAt(index+arrayID.length()) != '['){
+						// It looks like this is an incorrect translation. 
+						// Just check that it IS followed by an assignment.
+						// If so, then delete the assignment
+						if(line.charAt(index+arrayID.length() + 1) == '='){
+							line = line.substring(index+arrayID.length() + 2).trim();
+							break;
+						}
+					}
+				}
+			}
+			formattedCodeArray.add(line);
+		}
+		return formattedCodeArray;
 	}
 
 	@Override

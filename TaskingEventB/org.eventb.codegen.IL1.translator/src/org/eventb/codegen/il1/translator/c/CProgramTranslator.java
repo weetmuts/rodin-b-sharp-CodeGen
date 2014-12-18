@@ -144,20 +144,20 @@ public class CProgramTranslator extends AbstractProgramIL1Translator {
 			mainCode.add("{");	//	start main
 			
 			//	OpenMP declare parallel regions
-			mainCode.add("#pragma omp parallel sections");
-			mainCode.add("{");						//	start OpenMP parallel region
+//			mainCode.add("#pragma omp parallel sections");
+//			mainCode.add("{");						//	start OpenMP parallel region
 			
 			//	Add the tasks
 			for (String m : mainMethodTaskNames)
 			{	
 				//	Add each call as a parallel section
-				mainCode.add("#pragma omp section");
-				mainCode.add("{");
+//				mainCode.add("#pragma omp section");
+//				mainCode.add("{");
 				mainCode.add(m.trim() + "();");		//	Doesn't actually need the 0, that's legacy from old version of threading
-				mainCode.add("}");
+//				mainCode.add("}");
 			}			
 			
-			mainCode.add("}");	//	end OpenMP parallel region
+//			mainCode.add("}");	//	end OpenMP parallel region
 			mainCode.add("}");	//	end main				
 		}
 		

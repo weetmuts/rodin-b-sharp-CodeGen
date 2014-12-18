@@ -47,8 +47,8 @@ public class CSubroutineTranslator_Open_MP extends AbstractSubroutineIL1Translat
 			translationManager.addIncludeStatement("#define FALSE 0");
 		}
 
-		outCode.add("#pragma omp critical (" + machineName.toUpperCase() + ")");
-		outCode.add("{");		//	OPEN critical region	
+//		outCode.add("#pragma omp critical (" + machineName.toUpperCase() + ")");
+//		outCode.add("{");		//	OPEN critical region	
 		
 		//	Guards
 		if (!guardList.equals(""))
@@ -87,7 +87,7 @@ public class CSubroutineTranslator_Open_MP extends AbstractSubroutineIL1Translat
 			}
 		}
 		
-		outCode.add("}");			//	close critical
+//		outCode.add("}");			//	close critical
 		outCode.add("}");	//	close function
 		
 		return outCode;	
