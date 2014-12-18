@@ -1,6 +1,7 @@
 package org.eventb.codegen.il1.translator.c;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eventb.codegen.il1.Declaration;
@@ -11,6 +12,37 @@ import org.eventb.codegen.il1.translator.IL1TranslationManager;
 import org.eventb.codegen.il1.translator.core.AbstractIL1TranslatorUtils;
 
 public class CTranslatorUtils extends AbstractIL1TranslatorUtils {
+
+	// Keep a list of array names for post processing. The removal of
+	// duplicate identifiers which are translated due to difference 
+	// between Event-B and C array semantics.
+
+	// In Event-B, only identifiers may be assigned to on the LHS
+	// of an assignment. In C we have expressions on the LHS so,
+
+	// Event-B: array := array <+ {x|->y}
+	// semantics are, lhs 'after' array is assigned the old 'before' array
+	// with the elements x,y added / or y updated
+	
+	// or using an array theory, an Event-B assignment
+	// where update(array,x,y) == array <+ {x|->y} 
+	// a := update(array,x,y)
+	//     // rule: t(a) == a
+	// ~> a = t(update(array,x,y))
+	//     // rule: update(array,x,y) == a[x] = y
+	// ~>     a = a[x] = y
+	// and this is wrong
+	
+	// C: array[x] = y
+	// The array element x is updated with the value y.
+	// In event-B the updated array is assigned to the LHS array,
+	// but in C only the indexed item is assigned.
+	
+	private static List<String> arrayIDs = new ArrayList<String>();
+	
+	public static List<String> getArrayIDs() {
+		return arrayIDs;
+	}
 
 	@Override
 	protected String getTrue() { 
