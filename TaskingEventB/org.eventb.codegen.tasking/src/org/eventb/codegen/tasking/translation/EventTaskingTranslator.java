@@ -101,8 +101,7 @@ public class EventTaskingTranslator extends AbstractTaskingTranslator {
 				actualTarget.setProjectName(projectName);
 			}
 				// Store event so it can be recovered by proxies later on
-				translationManager.addProxyElement(actualSource,
-						parentMachineName);
+				translationManager.storeEventBElement(actualSource, null, parentMachineName);
 			
 		}
 

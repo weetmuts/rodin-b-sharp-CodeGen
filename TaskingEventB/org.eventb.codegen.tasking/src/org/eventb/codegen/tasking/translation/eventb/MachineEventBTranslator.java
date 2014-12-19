@@ -30,7 +30,7 @@ public class MachineEventBTranslator extends AbstractEventBTranslator {
 		// Store all of the events so can get back to them from the proxy
 		// elements
 		for (Event e : actualSource.getEvents()) {
-			translationManager.addProxyElement(e, machine.getName());
+			translationManager.storeEventBElement(e, machine.getName(), e.getName());
 		}
 
 		for (EObject eObj : actualSource.eContents()) {

@@ -12,52 +12,53 @@ import compositeControl.EventWrapper;
 public class EventWrapperEventBTranslator extends AbstractEventBTranslator {
 
 	@Override
-	public String translate(EventBElement source,
-			MachineImpl machine, String waitGuard, String forceGuardName, TaskingTranslationManager translationManager)
+	public String translate(EventBElement source, MachineImpl machine,
+			String waitGuard, String forceGuardName,
+			TaskingTranslationManager translationManager)
 			throws TaskingTranslationUnhandledTypeException {
 
-		EventWrapper actualSource = (EventWrapper)source;
-		
-		
-		MachineImpl parentMch = TaskingTranslationManager.getParentMachine(actualSource);
+		EventWrapper actualSource = (EventWrapper) source;
+
+		MachineImpl parentMch = TaskingTranslationManager
+				.getParentMachine(actualSource);
 
 		// BEGIN NEW CODE
-		//Event e = actualSource.getEvent();
+		// Event e = actualSource.getEvent();
 		// END NEW CODE
 
-		
-		Event e = (Event)translationManager.getElementUsingProxy(actualSource.getEvent(), parentMch.getName());
-		
-		if (!e.getName().equals("INITIALISATION"))
-		{
-			
-			//	Create guard waitGuard=true
+		Event e = (Event) translationManager.getEventBElementFromStore(
+				parentMch.getName(), actualSource.getEvent().getName());
+
+		if (!e.getName().equals("INITIALISATION")) {
+
+			// Create guard waitGuard=true
 			EventBTranslatorHelpers.addNewGuard(e, waitGuard);
-						
+
 			String newWaitGuard = e.getName();
-			
-			//	Use the required wait guard name if required
+
+			// Use the required wait guard name if required
 			if (forceGuardName != null)
 				newWaitGuard = forceGuardName;
-			
-			//	Create actions
-			
-			//	Disable waitGuard
+
+			// Create actions
+
+			// Disable waitGuard
 			EventBTranslatorHelpers.disableProgramCounter(e, waitGuard);
-			
-			//	Only if creating a new program counter (ie haven't been pre-assigned one)
-			if (forceGuardName == null)
-			{
-				//	Add new waitGuard program counter flag thingy
-				EventBTranslatorHelpers.addNewProgramCounter(newWaitGuard, machine);
+
+			// Only if creating a new program counter (ie haven't been
+			// pre-assigned one)
+			if (forceGuardName == null) {
+				// Add new waitGuard program counter flag thingy
+				EventBTranslatorHelpers.addNewProgramCounter(newWaitGuard,
+						machine);
 			}
-			
-			//	Enable new wait guard
-			EventBTranslatorHelpers.enableProgramCounter(e, newWaitGuard);			
-			
-			return newWaitGuard;				
+
+			// Enable new wait guard
+			EventBTranslatorHelpers.enableProgramCounter(e, newWaitGuard);
+
+			return newWaitGuard;
 		}
-		
+
 		return waitGuard;
 	}
 
