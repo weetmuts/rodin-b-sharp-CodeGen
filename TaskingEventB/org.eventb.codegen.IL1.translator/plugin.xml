@@ -23,7 +23,7 @@
          <action
                class="org.eventb.codegen.il1.translator.TranslateFromEventBToC_OpenMP_C"
                id="org.eventb.codegen.translation.menu1.action.TranslateEventBToC"
-               label="Translate EventB to OpenMP-C"
+               label="Translate EventB to C"
                menubarPath="org.eventb.codegen.translation.menu1/groupA">
          </action>
          <action
