@@ -35,7 +35,7 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 		translationManager.addIncludeStatement("#define FALSE 0");
 		
 		//	Add code for threads
-		translationManager.addIncludeStatement("#include<omp.h>");
+//		translationManager.addIncludeStatement("#include<omp.h>");
 //		translationManager.addIncludeStatement("#include<process.h>");
 		
 		Program actualSource = (Program)source;

@@ -1,7 +1,9 @@
 package org.eventb.codegen.il1.translator.c;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eventb.codegen.il1.Declaration;
@@ -39,11 +41,21 @@ public class CTranslatorUtils extends AbstractIL1TranslatorUtils {
 	// but in C only the indexed item is assigned.
 	
 	private static List<String> arrayIDs = new ArrayList<String>();
+	private static Map<String, List<String>> arrayDimensionMap = new HashMap<String, List<String>>();
+	private static Map<String, String> arrayInitValueMap = new HashMap<String, String>();
 	
 	public static List<String> getArrayIDs() {
 		return arrayIDs;
 	}
 
+	public static Map<String, List<String>> getArrayDimensions(){
+		return arrayDimensionMap ;
+	}
+	
+	public static Map<String, String> getArrayInitValue(){
+		return arrayInitValueMap  ;
+	}
+	
 	@Override
 	protected String getTrue() { 
 		return "TRUE";

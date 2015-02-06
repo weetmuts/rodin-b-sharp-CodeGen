@@ -1,6 +1,7 @@
 package org.eventb.codegen.il1.translator.c;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eventb.codegen.il1.FullyTranslatedDecl;
 import org.eventb.codegen.il1.VariableDecl;
@@ -14,7 +15,7 @@ public class CVariableTranslator extends AbstractVariableIL1Translator {
 			String identifier, String initialisation, String machineName,
 			boolean isProtected) {
 
-		String arrayID = identifier + "_" + machineName;
+		String id = identifier + "_" + machineName;
 		if (initialisation != null && !initialisation.equals("")) {
 			// if we have some kind of array we need to re-write the type
 			// expression.
@@ -25,19 +26,33 @@ public class CVariableTranslator extends AbstractVariableIL1Translator {
 				type = oldType.substring(0, openingIndex);
 				String arraySizePart = oldType.substring(openingIndex,
 						closingIndex + 1);
-				// Add the arrayID to a list of Identifiers to be used for post
+				// Add the ID to a list of Identifiers to be used for post
 				// processing.
-				// In the case of arrayIDs, incompatibilities between Event-B, C
+				// In the case of array IDs, incompatibilities between Event-B, C
 				// and the theory's
-				// pattern matching approach means the arrayID must be removed
+				// pattern matching approach means the array ID must be removed
 				// from array assignments.
-				CTranslatorUtils.getArrayIDs().add(arrayID);
-				return type + " " + arrayID + arraySizePart + " = "
-						+ initialisation + ";";
+				CTranslatorUtils.getArrayIDs().add(id);
+				// initialise the array in the init function of the task 
+				// not in the declaration.
+				// We need to record the dimensions of the array to do this.
+				// split on the closing bracket and remove the opening one
+				String[] splitArray = arraySizePart.split("\\]");
+				List<String> arrayDimList = new ArrayList<String>();
+				for(int i = 0; i < splitArray.length; i++){
+					String dimensionElement = splitArray[i];
+					dimensionElement = dimensionElement.replace("[", "");
+					arrayDimList.add(dimensionElement);
+				}
+				// add it to the map: stored for later use
+				CTranslatorUtils.getArrayDimensions().put(identifier, arrayDimList);
+				CTranslatorUtils.getArrayInitValue().put(identifier, initialisation);
+				
+				return type + " " + id + arraySizePart + ";";
 			}
-			return type + " " + arrayID + " = " + initialisation + ";";
+			return type + " " + id + " = " + initialisation + ";";
 		} else {
-			return type + " " + arrayID + ";";
+			return type + " " + id + ";";
 		}
 	}
 

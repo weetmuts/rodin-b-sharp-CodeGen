@@ -40,7 +40,7 @@ public class CppProgramIL1Translator extends AbstractProgramIL1Translator
 		//translationManager.addIncludeStatement("#include \"CommonHeader.h\"");
 		
 		//	Add code for threads
-		translationManager.addIncludeStatement("#include<omp.h>");
+//		translationManager.addIncludeStatement("#include<omp.h>");
 		
 		outCode.add("// Code generated: " + getCurrentTimeDate());
 		outCode.add("");
