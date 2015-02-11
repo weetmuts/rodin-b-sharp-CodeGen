@@ -48,13 +48,14 @@ public class CConstantTranslator extends AbstractConstantIL1Translator {
 			
 			if (first)
 			{
-				outCode.add("const " + s);
+				outCode.add("const " + s + ";");
 				first = false;
 			}
 			else
 			{
-				outCode.add(s);	//	not in original version, looks like it should be
+				outCode.add(s + ";");	//	not in original version, looks like it should be
 			}
+			
 		}
 		
 		return outCode;

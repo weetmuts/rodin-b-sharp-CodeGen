@@ -59,7 +59,7 @@ public class AxiomTaskingTranslator extends AbstractTaskingTranslator {
 
 		// handle typing axioms, but not enums if someone has attached a typing
 		// annotation to an enum.
-		if (isTypingAxiom && !isEnum) {
+		if (!isEnum && isTypingAxiom) {
 			ConstantDecl newConstantDecl = Il1Factory.eINSTANCE
 					.createConstantDecl();
 			// get the name from the typing predicate
@@ -94,7 +94,7 @@ public class AxiomTaskingTranslator extends AbstractTaskingTranslator {
 			}
 			actualTarget = newConstantDecl;
 
-		} else if (isEnum) {
+		} else if (isEnum && isTypingAxiom) {
 			// Now handle the enumerations
 			Enumeration enumeration = Il1Factory.eINSTANCE.createEnumeration();
 			enumeration.setComponentName(contextName);

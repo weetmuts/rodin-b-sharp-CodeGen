@@ -124,7 +124,7 @@ public class TaskingTranslationManager {
 	// Maps between URI and EventBElement with that URI.
 	// Used for managing objects that are proxy objects later on.
 	// Really a temporary measure, until proxy resolving is sorted out.
-	private Map<String, EventBElement> proxyElementMap = new HashMap<String, EventBElement>();
+	private Map<String, EventBElement> elementStorageMap = new HashMap<String, EventBElement>();
 
 	// Used to store composed machine information
 	ArrayList<ComposedMachine> composedMachineList = null;
@@ -212,12 +212,21 @@ public class TaskingTranslationManager {
 	private static String prefFlatten = "PreferenceFlatten";
 	// A similar preference for Java Interface Generation
 	private static String prefJavaInterface = "PreferenceJavaInterface";
-	// Setting (translationType = "tasking") => (the static checker is required to validate the 
+	// Setting (translationType = "tasking") => (the static checker is required
+	// to validate the
 	// typing info an tasking machines).
 	// Other values omit these checks.
 	public static final String DEFAULT_TRANSLATION_TYPE = "tasking";
 
-	private static String translationType = DEFAULT_TRANSLATION_TYPE; // The default is tasking, so static checks are performed.
+	private static String translationType = DEFAULT_TRANSLATION_TYPE; // The
+																		// default
+																		// is
+																		// tasking,
+																		// so
+																		// static
+																		// checks
+																		// are
+																		// performed.
 
 	private List<Subroutine> fmuCommunicatingSubroutines = new ArrayList<Subroutine>();
 
@@ -267,19 +276,23 @@ public class TaskingTranslationManager {
 							.getAttribute("nsURISource");
 					EPackage ePackageSource = EPackage.Registry.INSTANCE
 							.getEPackage(nsURISource);
-					
-					if(ePackageSource == null){
+
+					if (ePackageSource == null) {
 						try {
-							throw new TaskingTranslationException("Unable to find the metamodel nsURI: "+ nsURISource);
+							throw new TaskingTranslationException(
+									"Unable to find the metamodel nsURI: "
+											+ nsURISource);
 						} catch (TaskingTranslationException e) {
-							Status status = new Status(IStatus.ERROR, CodeGenTasking.PLUGIN_ID,
+							Status status = new Status(IStatus.ERROR,
+									CodeGenTasking.PLUGIN_ID,
 									"Failed Translation: TaskingTranslationException"
-											+ ":\n"+ extractFullExceptionMessage(e), e);
-							StatusManager.getManager().handle(status, StatusManager.SHOW);
+											+ ":\n"
+											+ extractFullExceptionMessage(e), e);
+							StatusManager.getManager().handle(status,
+									StatusManager.SHOW);
 						}
 					}
-					
-					
+
 					String targetName = packageElement
 							.getAttribute("TargetOutput");
 					if (targetName.equals("IL1")) {
@@ -334,7 +347,7 @@ public class TaskingTranslationManager {
 		}
 		return initialMessage;
 	}
-	
+
 	public TaskingTranslationManager(Il1Factory factory) {
 		this.factory = factory;
 		program = this.factory.createProgram();
@@ -377,7 +390,7 @@ public class TaskingTranslationManager {
 		// elements
 
 		for (Context c : relevantMachines.contextList) {
-			addProxyElement(c, c.getName());
+			storeEventBElement(c, null , c.getName());
 		}
 
 		this.composedMachineList = composedMachines;
@@ -440,10 +453,10 @@ public class TaskingTranslationManager {
 				}
 
 				// store machine and event proxies.
-				addProxyElement(machine, machine.getName());
+				storeEventBElement(machine, null, machine.getName());
 				EList<Event> eventList = machine.getEvents();
 				for (Event evt : eventList) {
-					addProxyElement(evt, machine.getName());
+					storeEventBElement(evt, machine.getName(), evt.getName());
 				}
 				// Determine the task type
 				MachineType taskingType = CodeGenTaskingUtils
@@ -798,23 +811,22 @@ public class TaskingTranslationManager {
 	 * @return The translated element, or null if not previously translated.
 	 * @deprecated
 	 */
-//	public IL1Element recoverPreviousTranslation(EventBElement source) {
-//		return recoverPreviousTranslation(source.getReferenceWithoutResolving());
-//		// return storedElements.get(source.getReferenceWithoutResolving());
-//	}
+	// public IL1Element recoverPreviousTranslation(EventBElement source) {
+	// return recoverPreviousTranslation(source.getReferenceWithoutResolving());
+	// // return storedElements.get(source.getReferenceWithoutResolving());
+	// }
 
 	public IL1Element recoverPreviousTranslation(Event source) {
 		boolean isProxy = source.eIsProxy();
 		String id = source.getURI() + "/" + source.getName();
 		// the retrieval does not appear to work. The wrong name is
 		// being used. Don't know what has changed to make it stop working.
-		if(isProxy){
+		if (isProxy) {
 			String firstPart = id.substring(0, id.indexOf("#"));
 			String lastPart = id.substring(id.lastIndexOf("/"));
 			id = firstPart + lastPart;
 		}
 
-		
 		return recoverPreviousTranslation(id);
 	}
 
@@ -823,33 +835,44 @@ public class TaskingTranslationManager {
 		String id = source.getURI() + "/" + source.getName();
 		// the retrieval does not appear to work. The wrong name is
 		// being used. Don't know what has changed to make it stop working.
-		if(isProxy){
+		if (isProxy) {
 			String firstPart = id.substring(0, id.indexOf("#"));
 			String lastPart = id.substring(id.lastIndexOf("/"));
 			id = firstPart + lastPart;
 		}
-		
+
 		return storedElementMap.containsKey(id);
 	}
 
-	public void addPreviousTranslation(Event source, Subroutine translation) {		
+	public void addPreviousTranslation(Event source, Subroutine translation) {
 		String id = source.getURI() + "/" + source.getName();
-		storedElementMap.put(id,translation);
+		storedElementMap.put(id, translation);
 	}
 
 	public IL1Element recoverPreviousTranslation(String reference) {
 		return storedElementMap.get(reference);
 	}
 
-	public void addProxyElement(EventBElement toRemember, String elementName) {
-		proxyElementMap.put(toRemember.getReference() + "_" + elementName,
-				toRemember);
+	// Map based store for partially generated EventB Elements: 
+	// If the element is 'contained' in a machine or context, 
+	// then the key is as string :- <parentName>_<elementName>.
+	// Machines and contexts have the machine's name as the elementName
+	// and the first the first argument can be null or the empty string.
+	// Keys have the form _<elementName>.
+	public void storeEventBElement(EventBElement toRemember,
+			String parentElementName, String elementName) {
+		if (parentElementName == null) {
+			parentElementName = "";
+		}
+		elementStorageMap.put(parentElementName + "_" + elementName, toRemember);
 	}
 
-	public EventBElement getElementUsingProxy(EventBElement proxy,
-			String elementName) {
-		return proxyElementMap.get(proxy.getReference() + "_"
-				+ elementName);
+	// Retrieval of element, see above.
+	public EventBElement getEventBElementFromStore(String parentElementName, String elementName) {
+		if (parentElementName == null) {
+			parentElementName = "";
+		}
+		return elementStorageMap.get(parentElementName + "_" + elementName);
 	}
 
 	public IL1Element copy(IL1Element element) {
@@ -1187,15 +1210,16 @@ public class TaskingTranslationManager {
 		return typeEnvironment;
 
 	}
+
 	public List<Subroutine> getCommunicatingSubroutines() {
-		return fmuCommunicatingSubroutines ;
+		return fmuCommunicatingSubroutines;
 	}
 
 	public static String getTranslationType() {
 		return translationType;
 	}
-	
-	public static void setTranslationType(String s){
+
+	public static void setTranslationType(String s) {
 		translationType = s;
 	}
 }

@@ -40,7 +40,7 @@ public class CppProgramIL1Translator extends AbstractProgramIL1Translator
 		//translationManager.addIncludeStatement("#include \"CommonHeader.h\"");
 		
 		//	Add code for threads
-		translationManager.addIncludeStatement("#include<omp.h>");
+//		translationManager.addIncludeStatement("#include<omp.h>");
 		
 		outCode.add("// Code generated: " + getCurrentTimeDate());
 		outCode.add("");
@@ -151,10 +151,10 @@ public class CppProgramIL1Translator extends AbstractProgramIL1Translator
 			for (String m : mainMethodTaskNames)
 			{	
 				//	Add each call as a parallel section
-				mainCode.add("#pragma omp section");
-				mainCode.add("{");
+//				mainCode.add("#pragma omp section");
+//				mainCode.add("{");
 				mainCode.add(m.trim() + "();");		//	Doesn't actually need the 0, that's legacy from old version of threading
-				mainCode.add("}");
+//				mainCode.add("}");
 			}			
 			
 			mainCode.add("}");	//	end OpenMP parallel region

@@ -75,8 +75,8 @@ public class CSubroutineIL1Translator extends AbstractIL1Translator {
 					outCode.add("// This will block until the guard has been met (no nice way of doing this in OpenMP 2.5)");
 					outCode.add("BOOL completed = FALSE; \t // private to the thread by default");
 					outCode.add("// Try and get lock");
-					outCode.add("#pragma omp critical (" + actualSource.getMachineName().toUpperCase() + ")");
-					outCode.add("{");
+//					outCode.add("#pragma omp critical (" + actualSource.getMachineName().toUpperCase() + ")");
+//					outCode.add("{");
 					outCode.add("// Check to see if guard is met");	
 					
 					
@@ -118,8 +118,8 @@ public class CSubroutineIL1Translator extends AbstractIL1Translator {
 			}
 			else
 			{
-				outCode.add("#pragma omp critical (" + actualSource.getMachineName().toUpperCase() + ")");
-				outCode.add("{");
+//				outCode.add("#pragma omp critical (" + actualSource.getMachineName().toUpperCase() + ")");
+//				outCode.add("{");
 			}
 			
 			if (localVariables.size() > 0)
@@ -161,13 +161,13 @@ public class CSubroutineIL1Translator extends AbstractIL1Translator {
 					outCode.add("{");
 					outCode.add("// Go back and try again");
 					outCode.add("}");
-					outCode.add("}");		//	close parallel section
+	//				outCode.add("}");		//	close parallel section
 				}
 			}
 			else
 			{
 				//	Close critical region
-				outCode.add("}");
+//				outCode.add("}");
 			}
 			
 			outCode.add("}");

@@ -173,13 +173,13 @@ public final class CodeGenTaskingUtils {
 						Event pairedEvent = combinesEvts.get(1).getEvent();
 						String mchName = combinesEvts.get(1).getMachineName();
 						pairedEvent = (Event) taskingTranslationManager
-								.getElementUsingProxy(pairedEvent, mchName);
+								.getEventBElementFromStore(mchName, pairedEvent.getName());
 						return pairedEvent;
 					} else if (index == 1) {
 						Event pairedEvent = combinesEvts.get(0).getEvent();
 						String mchName = combinesEvts.get(0).getMachineName();
 						pairedEvent = (Event) taskingTranslationManager
-								.getElementUsingProxy(pairedEvent, mchName);
+								.getEventBElementFromStore(mchName, pairedEvent.getName());
 						return pairedEvent;
 					}
 				}

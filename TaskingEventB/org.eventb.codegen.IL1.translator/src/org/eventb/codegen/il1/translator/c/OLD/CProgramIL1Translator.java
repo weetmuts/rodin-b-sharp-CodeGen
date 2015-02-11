@@ -35,7 +35,7 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 		translationManager.addIncludeStatement("#define FALSE 0");
 		
 		//	Add code for threads
-		translationManager.addIncludeStatement("#include<omp.h>");
+//		translationManager.addIncludeStatement("#include<omp.h>");
 //		translationManager.addIncludeStatement("#include<process.h>");
 		
 		Program actualSource = (Program)source;
@@ -129,8 +129,8 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 		if (actualSource.getEntryPoint() != null || actualSource.getEnvironMachines() != null)
 		{			
 			//	OpenMP declare parallel regions
-			mainCode.add("#pragma omp parallel sections");
-			mainCode.add("{");						//	open OpenMP parallel region
+//			mainCode.add("#pragma omp parallel sections");
+//			mainCode.add("{");						//	open OpenMP parallel region
 			
 			if (actualSource.getEntryPoint() != null)
 			{
@@ -144,10 +144,10 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 	//				mainCode.add("_beginthread(" + task.getName().trim() + "Thread, 0, 0);");		
 					
 					//	Add each call as a parallel section
-					mainCode.add("#pragma omp section");
-					mainCode.add("{");
+//					mainCode.add("#pragma omp section");
+//					mainCode.add("{");
 					mainCode.add(task.getName().trim() + "Thread();");		//	Doesn't actually need the 0, that's legacy from old version of threading
-					mainCode.add("}");
+//					mainCode.add("}");
 				}
 			}
 			
@@ -164,10 +164,10 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 	//				mainCode.add("_beginthread(" + task.getName().trim() + "Thread, 0, 0);");		
 					
 					//	Add each call as a parallel section
-					mainCode.add("#pragma omp section");
-					mainCode.add("{");
+//					mainCode.add("#pragma omp section");
+//					mainCode.add("{");
 					mainCode.add(task.getName().trim() + "Thread();");		//	Doesn't actually need the 0, that's legacy from old version of threading
-					mainCode.add("}");
+//					mainCode.add("}");
 				}
 			}
 			
@@ -190,7 +190,7 @@ public class CProgramIL1Translator extends AbstractIL1Translator {
 	//		 so it needs to be closed
 	//	if (actualSource.getEntryPoint() != null)
 	//	{
-			fullCodeArray.add("}");					//	close OpenMP parallel region
+//			fullCodeArray.add("}");					//	close OpenMP parallel region
 	//	}
 		
 		fullCodeArray.add("}");

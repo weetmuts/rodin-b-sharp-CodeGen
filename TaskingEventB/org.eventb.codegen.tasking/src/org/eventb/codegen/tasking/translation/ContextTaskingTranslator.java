@@ -32,9 +32,10 @@ public class ContextTaskingTranslator extends AbstractTaskingTranslator {
 		// translate the axioms of extended contexts
 		EList<Context> extended = actualSource.getExtends();
 		for(Context ctx_proxy: extended){
+			
 			// resolve the proxy
 			String proxyName = ctx_proxy.getName();
-			EventBElement ctx = translationManager.getElementUsingProxy(ctx_proxy, proxyName);
+			EventBElement ctx = translationManager.getEventBElementFromStore(null, ctx_proxy.getName());
 			if(ctx != null){
 				// recursively call the translator on extended contexts to translate #1 below
 				DeclarationList extendsDecls = (DeclarationList) translate(ctx, target, translationManager);

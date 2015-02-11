@@ -11,22 +11,23 @@ public class CEnumerationTranslator extends AbstractEnumerationIL1Translator {
 
 	@Override
 	protected ArrayList<String> declareEnumeration(String enumerationName,
-			ArrayList<String> literals, Enumeration actualSource, IL1TranslationManager translationManager) {
-		
+			ArrayList<String> literals, Enumeration actualSource, IL1TranslationManager translationManager) {		
 		ArrayList<String> outCode = new ArrayList<String>();
-		outCode.add("typedef enum " + enumerationName);		//	typedef needed to stop compiler complaining
-		outCode.add("{");
+		String outString = "typedef enum {" + enumerationName;
 		
+		boolean first = true;
 		for (String l : literals)
 		{
-			outCode.add(l + ",");
+			if(first){
+			outString = outString + (l);
+			first = false;
+			}
+			else{
+				outString = outString + (", "+l);
+			}
 		}
-		
-		outCode.add("} " + enumerationName + ";");		//	enumerationName needed at end to stop compiler complaining
-		
-		
-		
-		
+		outString = outString + ("} " + enumerationName + ";");		//	enumerationName needed at end to stop compiler complaining
+		outCode.add(outString);
 		return outCode;
 	}
 
