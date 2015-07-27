@@ -59,6 +59,10 @@
                column="2"
                descriptionId="org.eventb.codegen.ui.typing">
          </attributeReference>
+         <attributeReference
+               column="3"
+               descriptionId="org.eventb.codegen.ui.branching">
+         </attributeReference>
       </attributeRelation>
       <attributeRelation
             elementTypeId="org.eventb.core.axiom">
@@ -172,6 +176,14 @@
             required="true"
             typeId="org.eventb.codegen.ui.taskingContextAttribute">
       </choiceAttribute>
+      <choiceAttribute
+            class="org.eventb.codegen.ui.attributes.BranchingAttribute"
+            expandsHorizontally="false"
+            id="org.eventb.codegen.ui.branching"
+            prefix="BRANCHING"
+            required="true"
+            typeId="org.eventb.codegen.ui.branchingAttribute">
+      </choiceAttribute>
    </extension>
    <extension
          point="org.rodinp.core.attributeTypes">
@@ -189,6 +201,11 @@
             id="taskingContextAttribute"
             kind="string"
             name="TaskingContextAttribute">
+      </attributeType>
+      <attributeType
+            id="branchingAttribute"
+            kind="string"
+            name="Branching Attribute">
       </attributeType>
    </extension>
    <extension

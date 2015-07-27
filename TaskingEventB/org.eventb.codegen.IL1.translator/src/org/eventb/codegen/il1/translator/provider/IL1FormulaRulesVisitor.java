@@ -454,12 +454,30 @@ public class IL1FormulaRulesVisitor extends AbstractIL1FormulaRuleVisitor{
 				bind = matcher.match(baPredicate, assignmentPredicate, false); //pattern = Formula (lhs)
 			}
 			if(null!=bind){
+				
 				if(bind.getExpressionMappings().size()+bind.getPredicateMappings().size()>0){
 					assignmentString = TranslationBinder.bindAssignment(rule.getTranslation(), bind, assignedIdentifier); //resulting translation rule (rhs)
 					assignmentCommands.put(assignedIdentifier, assignmentString);
 				}else {
 					assignmentCommands.put(assignedIdentifier, rule.getTranslation());
 				}
+				
+				for (Entry<FreeIdentifier, Expression> bindingElement : bind.getExpressionMappings().entrySet()) {
+					Expression exp = bindingElement.getValue();
+					//Check if there is a translation rule for this expression
+					IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(exp.toString(), typeEnvironment, rules,false);
+					String translatedExpression = formulaVisitor.translate();
+					
+					//If an expression translation exists, then substitute in the assignment
+					if(!translatedExpression.equals(exp.toString())){
+						//bind.putExpressionMapping(bindingElement.getKey(), translatedExpression);
+						Map<Formula<?>,String> binderMap = new HashMap<Formula<?>, String>();
+						binderMap.put(exp, translatedExpression);
+						assignmentString = TranslationBinder.bind(assignmentString, binderMap);
+						assignmentCommands.put(assignedIdentifier, assignmentString);
+					}
+				}
+				
 				break;
 			}
 		}

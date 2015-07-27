@@ -7,8 +7,11 @@ Bundle-Activator: org.eventb.codegen.taskbodybuilder.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  ac.soton.eventb.roseEditor;bundle-version="[1.4.0,2.0.0)",
  org.eventb.taskingMetamodel;bundle-version="[0.1.4,1.0.0)",
- org.eventb.core;bundle-version="[2.5.1,3.0.0)"
+ org.eventb.core;bundle-version="[2.5.1,3.0.0)",
+ org.eventb.codegen.tasking;bundle-version="0.0.4"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eventb.codegen.taskbodybuilder,
  org.eventb.codegen.taskbodybuilder.utils;x-friends:="org.eventb.codegen.tests"
+Import-Package: org.eventb.codegen.tasking,
+ org.eventb.codegen.tasking.utils

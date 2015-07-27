@@ -111,6 +111,7 @@ public class RodinToEMFConverter {
 		map.clear();
 		// lets get file from the machine root
 		IFile machineFile = machineRoot.getResource();
+		//machineRoot.createChild(arg0, arg1, arg2)
 		// create the path
 		IPath path = new Path("platform:/resource");
 		IPath filePath = machineFile.getFullPath();

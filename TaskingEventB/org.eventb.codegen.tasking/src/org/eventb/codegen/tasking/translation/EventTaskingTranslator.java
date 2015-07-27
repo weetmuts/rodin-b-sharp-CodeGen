@@ -3,15 +3,20 @@ package org.eventb.codegen.tasking.translation;
 import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.ASSIGNMENT_SYMBOL;
 import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.ELEMENT_OF;
 import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.EQUALS_SYMBOL;
+import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.UP_TO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eventb.codegen.il1.Command;
 import org.eventb.codegen.il1.IL1Element;
+import org.eventb.codegen.il1.If;
 import org.eventb.codegen.il1.Il1Factory;
+import org.eventb.codegen.il1.Il1Package;
+import org.eventb.codegen.il1.LocalRemote;
 import org.eventb.codegen.il1.Seq;
 import org.eventb.codegen.il1.Subroutine;
 import org.eventb.codegen.tasking.AbstractTaskingTranslator;
@@ -584,6 +589,7 @@ public class EventTaskingTranslator extends AbstractTaskingTranslator {
 
 		return false;
 	}
+	
 
 	/**
 	 * Returns the guard where the parameter is linked to a variable
@@ -720,5 +726,5 @@ public class EventTaskingTranslator extends AbstractTaskingTranslator {
 //
 //		return paramList;
 //	}
-
+	
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.eventb.codegen.taskbodybuilder.TextToEMFParser.TaskElement;
 import org.eventb.codegen.taskbodybuilder.utils.Messages;
 import org.eventb.codegen.taskbodybuilder.utils.TaskingGrammarUtils;
+import org.rodinp.core.RodinDBException;
 
 import compositeControl.CompositeControl;
 
@@ -39,7 +40,7 @@ public abstract class AbstractTextParser {
 		return error_description.isEmpty();
 	}
 
-	protected abstract void parseInput(Token token);
+	protected abstract void parseInput(Token token) throws UnsupportedEncodingException, RodinDBException;
 
 	/**
 	 * Method to add errors when taskElement named 'elementName' does not exist
@@ -130,8 +131,10 @@ public abstract class AbstractTextParser {
 	 *
 	 * @return the EMF CompositeControl corresponding to the input text
 	 * @throws UnsupportedEncodingException
+	 * @throws Error 
+	 * @throws RodinDBException 
 	 */
-	public abstract CompositeControl validateInputAndGenerateEMF() throws UnsupportedEncodingException;
+	public abstract CompositeControl validateInputAndGenerateEMF() throws UnsupportedEncodingException, RodinDBException, Error;
 
 	/**
 	 * Parse for grammar errors and return true if no error were found

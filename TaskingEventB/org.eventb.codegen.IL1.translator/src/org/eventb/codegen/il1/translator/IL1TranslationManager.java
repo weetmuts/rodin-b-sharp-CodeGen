@@ -881,7 +881,7 @@ public class IL1TranslationManager {
 		if (source instanceof ActionImpl) {
 			eventName = ((ActionImpl) source).getParentEventName();
 		}
-
+		
 		if (projectName != null && machineName != null) {
 			IEventBRoot sourceRoot = getSourceRoot(projectName, machineName);
 			ITypeEnvironment typeEnvironment = getTypeEnv(sourceRoot, eventName);

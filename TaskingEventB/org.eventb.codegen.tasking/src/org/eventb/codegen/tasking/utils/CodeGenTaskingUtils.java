@@ -54,6 +54,8 @@ public final class CodeGenTaskingUtils {
 			.translate("INT");
 	public final static String BOOL_SYMBOL = RodinKeyboardPlugin.getDefault()
 			.translate("BOOL");
+	public final static String UP_TO = RodinKeyboardPlugin.getDefault()
+			.translate("\\upto");
 
 	public static MachineType getTaskType(final MachineImpl machine) {
 		if(machine == null){

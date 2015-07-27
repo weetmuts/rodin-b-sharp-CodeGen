@@ -26,6 +26,7 @@ public class CodeGenTasking extends AbstractUIPlugin implements BundleActivator 
 	// due to cyclic dependencies
 	public static final String TYPING_ATTRIBUTE_IDENT = "org.eventb.codegen.ui.typingAttribute";
 	public static final String PARAM_DIR_IDENT = "org.eventb.codegen.ui.parameterTypeAttribute";
+	public static final String BRANCHING_ATTRIBUTE_IDENT = "org.eventb.codegen.ui.branchingAttribute";
 	public static final String TASKING_CONTEXT_ATTRIBUTE_IDENT = "org.eventb.codegen.ui.taskingContextAttribute";
 	
 	public static IAttributeType.String TASKING_CONTEXT_ATTRIBUTE = RodinCore
@@ -34,6 +35,8 @@ public class CodeGenTasking extends AbstractUIPlugin implements BundleActivator 
 			.getStringAttrType(TYPING_ATTRIBUTE_IDENT);
 	public static IAttributeType.String PARAM_DIR_ATTRIBUTE = RodinCore
 			.getStringAttrType(PARAM_DIR_IDENT);
+	public static IAttributeType.String BRANCHING_ATTRIBUTE = RodinCore
+			.getStringAttrType(BRANCHING_ATTRIBUTE_IDENT);
 
 	
 	static BundleContext getContext() {
