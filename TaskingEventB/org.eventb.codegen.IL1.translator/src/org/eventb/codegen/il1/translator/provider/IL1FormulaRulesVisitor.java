@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.ui.internal.keys.NewKeysPreferenceMessages;
 import org.eventb.codegen.il1.translator.internal.provider.TranslationBinder;
 import org.eventb.codegen.il1.translator.utils.TranslatorProblem;
 import org.eventb.codegen.il1.translator.utils.TranslatorUtils;
@@ -47,6 +48,7 @@ import org.eventb.core.ast.UnaryExpression;
 import org.eventb.core.ast.UnaryPredicate;
 import org.eventb.core.ast.extensions.pm.IBinding;
 import org.eventb.core.ast.extensions.pm.Matcher;
+import org.eventb.core.seqprover.eventbExtensions.DLib;
 
 /**
  * @author renatosilva
@@ -421,6 +423,99 @@ public class IL1FormulaRulesVisitor extends AbstractIL1FormulaRuleVisitor{
 	 * @return
 	 * 		a Map<FreeIdentifier, String> containing the translated commands for this assignment
 	 */
+//	private Map<FreeIdentifier, String> getAssignmentCommand(FreeIdentifier assignedIdentifier,Expression expression, Assignment assignement){
+//		Map<FreeIdentifier, String> assignmentCommands =  new LinkedHashMap<FreeIdentifier,String>();
+//		Matcher matcher = new Matcher(ff);
+//		Assignment assign = null;
+//
+//		if(assignement instanceof BecomesEqualTo)
+//			assign = ff.makeBecomesEqualTo(assignedIdentifier, expression, null);
+//		else if(assignement instanceof BecomesMemberOf)
+//			assign = (BecomesMemberOf) assignement;//ff.makeBecomesMemberOf(assignedIdentifier, expression, null);
+//		else //other assignment are not supported
+//			return assignmentCommands;
+//
+//		ITypeEnvironment newTypeEnvironment = typeEnvironment.clone();
+//		ITypeCheckResult result = assign.typeCheck(typeEnvironment);
+//		boolean typeChecked = result.isSuccess();
+////		System.out.println(typeChecked+ " typecheck result for: "+assign);
+//		Predicate baPredicate = null;
+//
+//		//Check if there is a matching translationRule for this assignment
+//		String assignmentString = assign.toString();
+//		for(ITranslationRule rule: rules){
+//			if(!(rule.getFormula() instanceof Assignment)){
+//				continue;
+//			}
+//			Assignment assignementRule = (Assignment)rule.getFormula();
+//			Predicate assignmentPredicate = assignementRule.getBAPredicate(ff);
+//			IBinding bind = null;
+//
+//			if(typeChecked){
+//				baPredicate = assign.getBAPredicate(ff);
+//				bind = matcher.match(baPredicate, assignmentPredicate, false); //pattern = Formula (lhs)
+//			}
+//			if(null!=bind){
+//				
+//				if(bind.getExpressionMappings().size()+bind.getPredicateMappings().size()>0){
+//					assignmentString = TranslationBinder.bindAssignment(rule.getTranslation(), bind, assignedIdentifier); //resulting translation rule (rhs)
+//					assignmentCommands.put(assignedIdentifier, assignmentString);
+//				}else {
+//					assignmentCommands.put(assignedIdentifier, rule.getTranslation());
+//				}
+//				
+////				for (Entry<FreeIdentifier, Expression> bindingElement : bind.getExpressionMappings().entrySet()) {
+////					Expression exp = bindingElement.getValue();
+////					//Check if there is a translation rule for this expression
+////					IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(exp.toString(), typeEnvironment, rules,false);
+////					String translatedExpression = formulaVisitor.translate();
+////					
+////					//If an expression translation exists, then substitute in the assignment
+////					if(!translatedExpression.equals(exp.toString())){
+////						Map<Formula<?>,String> binderMap = new HashMap<Formula<?>, String>();
+////						binderMap.put(exp, translatedExpression);
+////						assignmentString = TranslationBinder.bind(assignmentString, binderMap);
+////						assignmentCommands.put(assignedIdentifier, assignmentString);
+////						
+////						for (Entry<FreeIdentifier, Expression> bindingElement2 : bind.getExpressionMappings().entrySet()) {
+////							FreeIdentifier key = bindingElement2.getKey();
+////							Expression value = bindingElement2.getValue();
+////							String newValue = TranslationBinder.bind(value.toString(), binderMap);
+////							if (!newValue.equals(value.toString())) {
+////								bind.getExpressionMappings().remove(key);
+////								DLib lib = DLib.mDLib(ff);
+////								bind.getExpressionMappings().put(key, lib.parseExpression(newValue));
+////							}
+////							
+////						}
+////						
+////					}
+////				}
+//				
+//				break;
+//			}
+//		}
+//
+//		//Check if there is a translation rule for this expression
+//		IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(expression.toString(), typeEnvironment, rules,false);
+//		String translatedExpression = formulaVisitor.translate();
+//
+//		//If an expression translation exists, then substitute in the assignment
+//		if(!translatedExpression.equals(expression.toString())){
+//			Map<Formula<?>,String> binderMap = new HashMap<Formula<?>, String>();
+//			binderMap.put(expression, translatedExpression);
+//			assignmentString = TranslationBinder.bind(assignmentString, binderMap);
+//			assignmentCommands.put(assignedIdentifier, assignmentString);
+//		}
+//
+//		//If there have not been any substitution, then do a "normal" assignment
+//		if(!assignmentCommands.containsKey(assignedIdentifier)){
+//			assignmentCommands.put(assignedIdentifier, assignedIdentifier + VARIABLE_ASSIGNMENT_OPERATOR + translatedExpression);
+//		}
+//
+//		return assignmentCommands;
+//	}
+	
 	private Map<FreeIdentifier, String> getAssignmentCommand(FreeIdentifier assignedIdentifier,Expression expression, Assignment assignement){
 		Map<FreeIdentifier, String> assignmentCommands =  new LinkedHashMap<FreeIdentifier,String>();
 		Matcher matcher = new Matcher(ff);
@@ -461,44 +556,33 @@ public class IL1FormulaRulesVisitor extends AbstractIL1FormulaRuleVisitor{
 				}else {
 					assignmentCommands.put(assignedIdentifier, rule.getTranslation());
 				}
-				
-				for (Entry<FreeIdentifier, Expression> bindingElement : bind.getExpressionMappings().entrySet()) {
-					Expression exp = bindingElement.getValue();
-					//Check if there is a translation rule for this expression
-					IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(exp.toString(), typeEnvironment, rules,false);
-					String translatedExpression = formulaVisitor.translate();
-					
-					//If an expression translation exists, then substitute in the assignment
-					if(!translatedExpression.equals(exp.toString())){
-						//bind.putExpressionMapping(bindingElement.getKey(), translatedExpression);
-						Map<Formula<?>,String> binderMap = new HashMap<Formula<?>, String>();
-						binderMap.put(exp, translatedExpression);
-						assignmentString = TranslationBinder.bind(assignmentString, binderMap);
-						assignmentCommands.put(assignedIdentifier, assignmentString);
-					}
-				}
-				
 				break;
 			}
 		}
 
 		//Check if there is a translation rule for this expression
-		IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(expression.toString(), typeEnvironment, rules,false);
-		String translatedExpression = formulaVisitor.translate();
-
-		//If an expression translation exists, then substitute in the assignment
-		if(!translatedExpression.equals(expression.toString())){
+		if (expression instanceof ExtendedExpression){
+			Expression[] expChildren = ((ExtendedExpression) expression).getChildExpressions();
 			Map<Formula<?>,String> binderMap = new HashMap<Formula<?>, String>();
-			binderMap.put(expression, translatedExpression);
+			for (Expression child: expChildren){
+				IL1FormulaRulesVisitor formulaVisitor = new IL1FormulaRulesVisitor(child.toString(), typeEnvironment, rules,false);
+				String translatedExpression = formulaVisitor.translate();
+
+				//If an expression translation exists, then substitute in the assignment
+				if(!translatedExpression.equals(child.toString())){
+					binderMap.put(child, translatedExpression);
+				}
+
+				//If there have not been any substitution, then do a "normal" assignment
+				if(!assignmentCommands.containsKey(assignedIdentifier)){
+					assignmentCommands.put(assignedIdentifier, assignedIdentifier + VARIABLE_ASSIGNMENT_OPERATOR + translatedExpression);
+				}
+			}
+
 			assignmentString = TranslationBinder.bind(assignmentString, binderMap);
 			assignmentCommands.put(assignedIdentifier, assignmentString);
 		}
-
-		//If there have not been any substitution, then do a "normal" assignment
-		if(!assignmentCommands.containsKey(assignedIdentifier)){
-			assignmentCommands.put(assignedIdentifier, assignedIdentifier + VARIABLE_ASSIGNMENT_OPERATOR + translatedExpression);
-		}
-
+		
 		return assignmentCommands;
 	}
 }

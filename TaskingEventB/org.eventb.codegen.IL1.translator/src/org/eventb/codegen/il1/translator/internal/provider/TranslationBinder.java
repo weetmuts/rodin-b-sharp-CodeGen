@@ -146,7 +146,7 @@ public class TranslationBinder {
 	 * @param output
 	 * @return
 	 */
-	private static String replacePattern(String pattern, String replacement, String input){
+	public static String replacePattern(String pattern, String replacement, String input){
 		StringBuilder outputSb = new StringBuilder(input);
 		StringBuilder formulaInput = maskSymbols(pattern);
 

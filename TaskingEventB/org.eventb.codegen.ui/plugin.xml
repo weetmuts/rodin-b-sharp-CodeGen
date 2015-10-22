@@ -70,6 +70,10 @@
                column="2"
                descriptionId="org.eventb.codegen.ui.typing">
          </attributeReference>
+         <attributeReference
+               column="3"
+               descriptionId="org.eventb.codegen.ui.branching">
+         </attributeReference>
       </attributeRelation>
       <choiceAttribute
             class="org.eventb.codegen.ui.attributes.MachineTypeAttribute"
@@ -180,7 +184,7 @@
             class="org.eventb.codegen.ui.attributes.BranchingAttribute"
             expandsHorizontally="false"
             id="org.eventb.codegen.ui.branching"
-            prefix="BRANCHING"
+            prefix="EXPANDING"
             required="true"
             typeId="org.eventb.codegen.ui.branchingAttribute">
       </choiceAttribute>

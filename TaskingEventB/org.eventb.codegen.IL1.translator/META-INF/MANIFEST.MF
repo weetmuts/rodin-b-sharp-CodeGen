@@ -20,6 +20,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eventb.codegen.il1.translator,
  org.eventb.codegen.il1.translator.c,
  org.eventb.codegen.il1.translator.core,
+ org.eventb.codegen.il1.translator.internal.provider,
  org.eventb.codegen.il1.translator.provider,
  org.eventb.codegen.il1.translator.utils
 Bundle-ClassPath: jregex1.2_01.jar,

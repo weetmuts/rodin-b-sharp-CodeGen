@@ -4,32 +4,54 @@
 package org.eventb.codegen.taskbodybuilder;
 
 import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.ELEMENT_OF;
-import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.UP_TO;
 import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.EQUALS_SYMBOL;
+import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.UP_TO;
+import static org.eventb.codegen.tasking.utils.CodeGenTaskingUtils.MAPS_TO;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eventb.codegen.taskbodybuilder.utils.TaskingGrammarUtils;
 import org.eventb.codegen.tasking.CodeGenTasking;
+import org.eventb.core.ast.Assignment;
+import org.eventb.core.ast.Expression;
+import org.eventb.core.ast.Formula;
+import org.eventb.core.ast.FormulaFactory;
+import org.eventb.core.ast.IFormulaRewriter;
+import org.eventb.core.ast.Predicate;
+import org.eventb.core.seqprover.IReasoner;
 import org.eventb.emf.core.Attribute;
 import org.eventb.emf.core.EventBObject;
+import org.eventb.emf.core.context.Axiom;
+import org.eventb.emf.core.context.Context;
+import org.eventb.emf.core.context.impl.ContextImpl;
+import org.eventb.emf.core.impl.ProjectImpl;
 import org.eventb.emf.core.machine.Action;
 import org.eventb.emf.core.machine.Event;
 import org.eventb.emf.core.machine.Guard;
+import org.eventb.emf.core.machine.Machine;
 import org.eventb.emf.core.machine.Variable;
 import org.eventb.emf.core.machine.impl.MachineFactoryImpl;
 import org.eventb.emf.core.machine.impl.MachineImpl;
-import org.eventb.emf.core.context.Axiom;
-import org.eventb.emf.core.context.Context;
+import org.eventb.emf.persistence.EMFRodinDB;
+import org.eventb.internal.core.seqprover.eventbExtensions.rewriters.AutoRewriterImpl;
+import org.eventb.internal.core.seqprover.eventbExtensions.rewriters.AutoRewrites;
+import org.eventb.internal.core.seqprover.eventbExtensions.rewriters.AutoRewrites.Level;
 import org.rodinp.core.RodinDBException;
-import org.rodinp.internal.core.RodinDB;
-import org.rodinp.internal.core.RodinDBManager;
+import org.eventb.core.seqprover.eventbExtensions.DLib;
+import org.eventb.codegen.il1.translator.internal.provider.TranslationBinder;
 
 import tasking.Task;
 import compositeControl.Branch;
@@ -49,10 +71,15 @@ public class TextToEMFParser extends AbstractTextParser {
 
 	private static CompositeControl parentComposite;
 	private Task parentTask;
+	private String projectName;
 	private List<Event> eventList = new ArrayList<Event>();
 	private Set<String> usedEvents = new TreeSet<String>();
 	private List<Variable> variableList = new ArrayList<Variable>();
 	private List<Axiom> axoimtList = new ArrayList<Axiom>();
+	private List<Axiom> expandAxoimtList = new ArrayList<Axiom>();
+	
+	final static FormulaFactory FORMULA_FACTORY =
+			FormulaFactory.getDefault();
 
 	static TaskingGrammar taskingGrammar;
 
@@ -69,11 +96,27 @@ public class TextToEMFParser extends AbstractTextParser {
 			return description;
 		}
 	}
-
+	
 	public TextToEMFParser(String inputString, Task parent)
 			throws UnsupportedEncodingException, RodinDBException {
 		parentTask = parent;
 		this.inputString = inputString;
+
+		loadAllEventsVariables();
+
+		if (taskingGrammar != null)
+			taskingGrammar.ReInit(new ByteArrayInputStream(inputString
+					.getBytes("UTF8"))); //$NON-NLS-1$
+		else
+			taskingGrammar = new TaskingGrammar(new ByteArrayInputStream(
+					inputString.getBytes("UTF8"))); //$NON-NLS-1$
+	}
+
+	public TextToEMFParser(String inputString, Task parent, String projectName)
+			throws UnsupportedEncodingException, RodinDBException {
+		parentTask = parent;
+		this.inputString = inputString;
+		this.projectName = projectName;
 
 		loadAllEventsVariables();
 
@@ -243,110 +286,145 @@ public class TextToEMFParser extends AbstractTextParser {
 		}
 
 		case TaskingGrammar.NAME: {
-			
+
 			String eventName = token.image.toString();
 
 			// manage implicit branching
 			Guard branchingGrd = checkImplicitBranching(eventName);
 			if (branchingGrd != null) {
-				processBranching(eventName, branchingGrd);
+				int firstIndex = getBranchingFirstIndex(branchingGrd);
+				int lastIndex = getBranchingLastIndex(branchingGrd);
+				processBranching(eventName, branchingGrd, firstIndex, lastIndex);
 
-				inputString = inputString.replaceAll(
-						eventName,
-						generateBranchingTaskBody(eventName, branchingGrd,
-								isLastToken(eventName)));
+				// if (!(token.next == null) && (token.next.kind ==
+				// TaskingGrammar.ELSE)) {
+				if (taskingGrammar.getToken(1).kind == TaskingGrammar.ELSE) {
+					inputString = inputString.replaceAll(
+							eventName,
+							generateBranchingTaskBody(eventName, branchingGrd,
+									isLastToken(eventName), firstIndex,
+									lastIndex, true));
+				} else {
+					inputString = inputString.replaceAll(
+							eventName,
+							generateBranchingTaskBody(eventName, branchingGrd,
+									isLastToken(eventName), firstIndex,
+									lastIndex, false));
+				}
+				
+				inputString = inputString.replaceAll("if if", "if ");
+				inputString = inputString.replaceAll("; ;", ";");
+				if (inputString.contains("else if")) {
+					inputString = inputString.replaceAll("else if", "elseif ");
+					SubBranch subBranch = CompositeControlFactory.eINSTANCE
+							.createSubBranch();
+					if (parentComposite instanceof Branch) {
+						Branch branch = (Branch) parentComposite;
+						branch.setSubBranch(subBranch);
+					} else if (parentComposite instanceof SubBranch) {
+						SubBranch subBranchParent = (SubBranch) parentComposite;
+						subBranchParent.setSubBranch(subBranch);
+					} else {
+					}
+					parentComposite = subBranch;
+				}
+				else {
+					Branch branch = CompositeControlFactory.eINSTANCE
+							.createBranch();
+					parentComposite = branch;
+				}
 				taskingGrammar.ReInit(new ByteArrayInputStream(inputString
 						.getBytes("UTF8"))); //$NON-NLS-1$
+
+				eventName = eventName + firstIndex;
+				String nextToken = taskingGrammar.getNextToken().image
+						.toString();
+				while (!(nextToken.equals(eventName)))
+					nextToken = taskingGrammar.getNextToken().image.toString();
 			}
 
-			else {
-
-				if (parentComposite instanceof Output) {
-					Output outputElement = (Output) parentComposite;
-					String value = token.image.toString();
-					if (outputElement.getText() == null
-							|| outputElement.getText().isEmpty()) {
-						outputElement.setText(value);
-					} else {
-						String variableName = value;
-						outputElement.setVariableName(variableName);
-					}
-					break;
+			if (parentComposite instanceof Output) {
+				Output outputElement = (Output) parentComposite;
+				String value = token.image.toString();
+				if (outputElement.getText() == null
+						|| outputElement.getText().isEmpty()) {
+					outputElement.setText(value);
+				} else {
+					String variableName = value;
+					outputElement.setVariableName(variableName);
 				}
-
-				// CJL REMOVED 07/02/2012
-				// Event does not need to be placed in the EventWrapper as we
-				// just
-				// use names now
-				// Event evt = getEvent(eventName);
-				// if(evt==null){
-				// addErrorNotExist(TaskElement.EVENT,eventName,token);
-				// break;
-				// }else
-				if (!usedEvent(eventName)) {
-					addErrorEventAlreadyUsed(TaskElement.EVENT, eventName,
-							token);
-					break;
-				}
-
-				EventWrapper eventWrapper = CompositeControlFactory.eINSTANCE
-						.createEventWrapper();
-				// eventWrapper.setEvent(evt);
-				eventWrapper.setEventName(eventName);
-
-				if (parentComposite instanceof Branch) {
-					Branch branch = (Branch) parentComposite;
-					if (branch.getEventWrapper() == null
-							|| branch.getEventWrapper().getEventName()
-									.isEmpty())
-						branch.setEventWrapper(eventWrapper);
-					else if (previousKind == TaskingGrammar.ELSEIF) {
-						branch.getSubBranch().setEventWrapper(eventWrapper);
-					} else if (previousKind == TaskingGrammar.ELSE)
-						branch.setAlt(eventWrapper);
-				}
-
-				else if (parentComposite instanceof SubBranch) {
-					SubBranch subBranch = (SubBranch) parentComposite;
-					CompositeControl tempParentComposite = parentComposite;
-					while (!(tempParentComposite instanceof Branch)
-							&& tempParentComposite != null)
-						tempParentComposite = (CompositeControl) tempParentComposite
-								.eContainer();
-					if (tempParentComposite != null) {
-						Branch branch = (Branch) tempParentComposite;
-						if (branch.getAlt() != null) {
-							addErrorElseIfMisplaced(TaskingGrammarUtils
-									.outputTextOtherSubBranch(eventName)
-									.toString(), token);
-							break;
-						}
-					}
-					if (subBranch.getEventWrapper() == null
-							|| subBranch.getEventWrapper().getEventName()
-									.isEmpty())
-						subBranch.setEventWrapper(eventWrapper);
-				}
-
-				else if (parentComposite instanceof Do) {
-					Do doCycle = (Do) parentComposite;
-					if (previousKind == TaskingGrammar.DO)
-						doCycle.setTaskBody(eventWrapper);
-					else if (previousKind == TaskingGrammar.FINALLY)
-						doCycle.setFinally(eventWrapper);
-				}
-
-				else if (parentComposite instanceof Seq) {
-					Seq seq = (Seq) parentComposite;
-					assert seq.getLeftBranch() != null;
-					seq.setRightBranch(eventWrapper);
-				}
-
-				else if (parentComposite == null
-						|| parentComposite instanceof EventWrapper)
-					parentComposite = eventWrapper;
 				break;
 			}
+
+			// CJL REMOVED 07/02/2012
+			// Event does not need to be placed in the EventWrapper as we
+			// just
+			// use names now
+			// Event evt = getEvent(eventName);
+			// if(evt==null){
+			// addErrorNotExist(TaskElement.EVENT,eventName,token);
+			// break;
+			// }else
+			if (!usedEvent(eventName)) {
+				addErrorEventAlreadyUsed(TaskElement.EVENT, eventName, token);
+				break;
+			}
+
+			EventWrapper eventWrapper = CompositeControlFactory.eINSTANCE
+					.createEventWrapper();
+			// eventWrapper.setEvent(evt);
+			eventWrapper.setEventName(eventName);
+
+			if (parentComposite instanceof Branch) {
+				Branch branch = (Branch) parentComposite;
+				if (branch.getEventWrapper() == null
+						|| branch.getEventWrapper().getEventName().isEmpty())
+					branch.setEventWrapper(eventWrapper);
+				else if (previousKind == TaskingGrammar.ELSEIF) {
+					branch.getSubBranch().setEventWrapper(eventWrapper);
+				} else if (previousKind == TaskingGrammar.ELSE)
+					branch.setAlt(eventWrapper);
+			}
+
+			else if (parentComposite instanceof SubBranch) {
+				SubBranch subBranch = (SubBranch) parentComposite;
+				CompositeControl tempParentComposite = parentComposite;
+				while (!(tempParentComposite instanceof Branch)
+						&& tempParentComposite != null)
+					tempParentComposite = (CompositeControl) tempParentComposite
+							.eContainer();
+				if (tempParentComposite != null) {
+					Branch branch = (Branch) tempParentComposite;
+					if (branch.getAlt() != null) {
+						addErrorElseIfMisplaced(
+								TaskingGrammarUtils.outputTextOtherSubBranch(
+										eventName).toString(), token);
+						break;
+					}
+				}
+				if (subBranch.getEventWrapper() == null
+						|| subBranch.getEventWrapper().getEventName().isEmpty())
+					subBranch.setEventWrapper(eventWrapper);
+			}
+
+			else if (parentComposite instanceof Do) {
+				Do doCycle = (Do) parentComposite;
+				if (previousKind == TaskingGrammar.DO)
+					doCycle.setTaskBody(eventWrapper);
+				else if (previousKind == TaskingGrammar.FINALLY)
+					doCycle.setFinally(eventWrapper);
+			}
+
+			else if (parentComposite instanceof Seq) {
+				Seq seq = (Seq) parentComposite;
+				assert seq.getLeftBranch() != null;
+				seq.setRightBranch(eventWrapper);
+			}
+
+			else if (parentComposite == null
+					|| parentComposite instanceof EventWrapper)
+				parentComposite = eventWrapper;
+			break;
 		}
 		}
 
@@ -362,6 +440,8 @@ public class TextToEMFParser extends AbstractTextParser {
 		MachineImpl machine = (MachineImpl) root;
 		for (Event event : machine.getEvents()) {
 			eventList.add(event);
+			//event.getURI();
+			//event.getGuards()
 		}
 		for (Variable var : machine.getVariables()) {
 			variableList.add(var);
@@ -370,14 +450,40 @@ public class TextToEMFParser extends AbstractTextParser {
 	
 	private void loadAllAxoims() throws RodinDBException {
 		EObject root = parentTask.eContainer();
-		while (root != null && !(root instanceof MachineImpl)) {
+		while (root != null && !(root instanceof Machine)) {
 			root = root.eContainer();
 		}
 
-		MachineImpl machine = (MachineImpl) root;
+		Machine machine = (Machine) root;
 		for (Context cntx : machine.getSees()) {
-			for (Axiom a : cntx.getAxioms())
+			String path = projectName+"/"+cntx.getName()+".buc";
+			URI uri = URI.createPlatformResourceURI(path, true);
+			String fragment = "http://emf.eventb.org/models/core/context/2014::"+cntx.eClass().getName()+"::"+cntx.getName();
+			uri = uri.appendFragment(fragment);
+			EventBObject cx = EMFRodinDB.INSTANCE.loadElement(uri);
+			Context c = (Context) cx; 
+			for (Axiom a : c.getAxioms())
 				axoimtList.add(a);
+		}
+	}
+	
+	private void loadBranchingAxoims() throws RodinDBException {
+		EObject root = parentTask.eContainer();
+		while (root != null && !(root instanceof Machine)) {
+			root = root.eContainer();
+		}
+
+		Machine machine = (Machine) root;
+		for (Context cntx : machine.getSees()) {
+			String path = projectName+"/"+cntx.getName()+".buc";
+			URI uri = URI.createPlatformResourceURI(path, true);
+			String fragment = "http://emf.eventb.org/models/core/context/2014::"+cntx.eClass().getName()+"::"+cntx.getName();
+			uri = uri.appendFragment(fragment);
+			EventBObject cx = EMFRodinDB.INSTANCE.loadElement(uri);
+			Context c = (Context) cx; 
+			for (Axiom a : c.getAxioms())
+				if (isBranchingAxoim(a))
+					expandAxoimtList.add(a);
 		}
 	}
 
@@ -426,7 +532,7 @@ public class TextToEMFParser extends AbstractTextParser {
 				CodeGenTasking.BRANCHING_ATTRIBUTE_IDENT);
 
 		if (a != null) {
-			if (a.getValue().equals("Branching")) {
+			if (a.getValue().equals("Expanded")) {
 				return true;
 			}
 		}
@@ -434,24 +540,39 @@ public class TextToEMFParser extends AbstractTextParser {
 		return false;
 	}
 	
-	private String generateBranchingTaskBody(String eventName, Guard branchingGrd, boolean isLastToken) throws RodinDBException {
+	public boolean isBranchingAxoim(Axiom a) {
+		Attribute att = a.getAttributes().get(
+				CodeGenTasking.BRANCHING_ATTRIBUTE_IDENT);
+
+		if (att != null) {
+			if (att.getValue().equals("Expanded")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	private String generateBranchingTaskBody(String eventName, Guard branchingGrd, boolean isLastToken, int firstIndex, int lastIndex, boolean isNextElse) throws RodinDBException {
 		int i = 1;
-		int firstIndexS = getBranchingFirstIndex(branchingGrd);
-		int lastIndexS = getBranchingLastIndex(branchingGrd);
 		
 		String branchingStr = "if " + eventName + (i++) + "\n";
-		for (int j = 0; j < lastIndexS-firstIndexS-1; j++) {
+		for (int j = 0; j < lastIndex-firstIndex-1; j++) {
 			branchingStr = branchingStr + "elseif " + eventName + (i++) + "\n";
 		}
-		branchingStr = branchingStr + "else " + eventName + i;
-		if (!isLastToken)
-			branchingStr = branchingStr + ";";
+		if (isNextElse)
+			branchingStr = branchingStr + "elseif " + eventName + i;
+		else {
+			branchingStr = branchingStr + "else " + eventName + i;
+			if (!isLastToken)
+				branchingStr = branchingStr + ";";
+		}
 		
 		return branchingStr;
 	}
 	
 	// create events/guards/actions required to represent the hidden branching in eventName
-	private void processBranching(String eventName, Guard branchingGrd) throws RodinDBException {
+	private void processBranching(String eventName, Guard branchingGrd, int firstIndex, int lastIndex) throws RodinDBException {
 		Event event = getEvent(eventName);
 		EObject root = parentTask.eContainer();
 		while (root != null && !(root instanceof MachineImpl)) {
@@ -461,29 +582,36 @@ public class TextToEMFParser extends AbstractTextParser {
 		MachineImpl machine = (MachineImpl) root;
 		
 		String par = getBranchingParameter(branchingGrd);
-		int firstIndexS = getBranchingFirstIndex(branchingGrd);
-		int lastIndexS = getBranchingLastIndex(branchingGrd);
 	
-		for (int i = firstIndexS; i<= lastIndexS; i++) {
+		for (int i = firstIndex; i<= lastIndex; i++) {
 			//create branching event
 			Event e = MachineFactoryImpl.eINSTANCE.createEvent();
 			e.setGenerated(true);
 			e.setName(eventName + i);
-			//add branching guard
-			Guard branchG = MachineFactoryImpl.eINSTANCE.createGuard();
-			branchG.setGenerated(true);
-			branchG.setName("grd1");
-			branchG.setPredicate(par + EQUALS_SYMBOL + i);
-			e.getGuards().add(branchG);
+			//add branching guard(s)
 			if (event != null) {
 				int n = 2;
+				loadBranchingAxoims();
 				for (Guard grd : event.getGuards()) {
 					if (!isBranchingGuard(grd)) {
 						Guard g = MachineFactoryImpl.eINSTANCE.createGuard();
 						g.setGenerated(true);
 						g.setName("grd"+ n++);
-						g.setPredicate(grd.getPredicate().toString().replaceAll(par, Integer.toString(i)));
-						//call simplifation from core and add a axiom of "i" = i to avoid the replacing above
+						g.setPredicate(TranslationBinder.replacePattern(par, Integer.toString(i), grd.getPredicate().toString()));
+						HashMap<String, String> expandingCnst = findExpandingConstant();
+						for (Entry<String, String> entry : expandingCnst.entrySet()) {
+						    String cnst = entry.getKey();
+						    String def = entry.getValue();
+							if (g.getPredicate().toString().contains(cnst))
+								g.setPredicate(TranslationBinder.replacePattern(cnst, def, g.getPredicate().toString()));
+						}
+						
+						DLib lib = DLib.mDLib(FORMULA_FACTORY);
+						Predicate newGrd = simplify(lib.parsePredicate(g.getPredicate()));
+						
+						if ((newGrd != null) && !(newGrd.toString().replaceAll("\\s+","").equals(g.getPredicate().toString().replaceAll("\\s+",""))))
+							g.setPredicate(newGrd.toString());
+						
 						e.getGuards().add(g);
 					}
 				}
@@ -496,7 +624,38 @@ public class TextToEMFParser extends AbstractTextParser {
 					Action a = MachineFactoryImpl.eINSTANCE.createAction();
 					a.setGenerated(true);
 					a.setName("act"+ n++);
-					a.setAction(act.getAction().toString().replaceAll(par, Integer.toString(i)));
+					a.setAction(TranslationBinder.replacePattern(par, Integer.toString(i), act.getAction().toString()));
+					HashMap<String, String> expandingCnst = findExpandingConstant();
+					for (Entry<String, String> entry : expandingCnst.entrySet()) {
+					    String cnst = entry.getKey();
+					    String def = entry.getValue();
+						if (a.getAction().toString().contains(cnst))
+							a.setAction(TranslationBinder.replacePattern(cnst, def, a.getAction().toString()));
+					}
+					
+					DLib lib = DLib.mDLib(FORMULA_FACTORY);
+					String asgnStr = a.getAction();
+					Assignment asgn = lib.parseAssignment(asgnStr);
+					if (asgn != null) {
+						int tag = asgn.getTag();
+						String tagSep;
+						if (tag == Assignment.BECOMES_EQUAL_TO) {
+							tagSep = "\u2254";
+						}
+						else if (tag == Assignment.BECOMES_MEMBER_OF) {
+							tagSep = ":\u2208";
+						}
+						else {
+							tagSep = ":\u2223";
+						}
+						String[] split = asgnStr.split(tagSep);
+						Expression LHS = simplify(lib.parseExpression(split[1]));
+						String newAct = split[0].toString() + tagSep + LHS;
+					
+						if ((newAct != null) && !(newAct.replaceAll("\\s+","").equals(asgnStr.replaceAll("\\s+",""))))
+							a.setAction(newAct.toString());
+					}
+					
 					e.getActions().add(a);
 				}
 			}
@@ -504,15 +663,62 @@ public class TextToEMFParser extends AbstractTextParser {
 			machine.getEvents().add(e);
 		}	
 	}
+
+	private Predicate simplify(Predicate pred) {
+
+		if (pred != null) {
+			final AutoRewrites autoRewrite = new AutoRewrites(Level.L3) {
+			};
+			final IFormulaRewriter rewriter = autoRewrite
+					.getRewriter(FORMULA_FACTORY);
+			Predicate newGoal = recursiveRewrite(pred, rewriter);
+
+			return newGoal;
+		}
+		return pred;
+	}
 	
+	private Predicate recursiveRewrite(Predicate pred, IFormulaRewriter rewriter) {
+		Predicate resultPred;
+		resultPred = pred.rewrite(rewriter);
+		while (resultPred != pred) {
+			pred = resultPred;
+			resultPred = pred.rewrite(rewriter);
+		}
+		return resultPred;
+	}
+	
+	private Expression simplify(Expression exp) {
+		
+		if (exp != null) {
+			final AutoRewrites autoRewrite = new AutoRewrites(Level.L3) {
+			};
+			final IFormulaRewriter rewriter = autoRewrite
+					.getRewriter(FORMULA_FACTORY);
+			Expression result = recursiveRewrite(exp, rewriter);
+
+			return result;
+		}
+		return exp;
+	}
+	
+	private Expression recursiveRewrite(Expression exp, IFormulaRewriter rewriter) {
+		Expression result;
+		result = exp.rewrite(rewriter);
+		while (result != exp) {
+			exp = result;
+			result = exp.rewrite(rewriter);
+		}
+		return result;
+	}
+
 	private boolean isLastToken(String str) {
-		if (inputString.indexOf(str) == inputString.length()-str.length())
+		if (inputString.trim().indexOf(str.trim()) == inputString.trim().length()-str.length())
 			return true;
 		return false;
 	}
 	
-	
-	String getBranchingParameter(Guard guard) {
+	private String getBranchingParameter(Guard guard) {
 		String par = "";
 		String gStr = guard.getPredicate().trim();
 		String[] gSplit = gStr.split(ELEMENT_OF);
@@ -524,7 +730,7 @@ public class TextToEMFParser extends AbstractTextParser {
 		return par;
 	}
 	
-	Integer getBranchingFirstIndex(Guard guard) throws RodinDBException {
+	private Integer getBranchingFirstIndex(Guard guard) throws RodinDBException {
 		String firstIndexS = "";
 		int firstIndex = 0;
 		String gStr = guard.getPredicate().trim();
@@ -548,13 +754,13 @@ public class TextToEMFParser extends AbstractTextParser {
 		return firstIndex;
 	}
 	
-	private String findConstantValue(String firstIndexS) {
+	private String findConstantValue(String s) {
 		for (Axiom c : axoimtList) {
 			String pred = c.getPredicate();
 			if (pred.contains(EQUALS_SYMBOL)) {
 				int loc = pred.indexOf(EQUALS_SYMBOL);
 				String id = pred.substring(0, loc).trim();
-				if (id == firstIndexS) {
+				if (id.equals(s)) {
 						String type = pred.substring(pred.lastIndexOf(EQUALS_SYMBOL) + 1,
 					pred.length());
 						return (type.trim());
@@ -563,8 +769,24 @@ public class TextToEMFParser extends AbstractTextParser {
 		}
 		return null;
 	}
+	
+	private HashMap<String, String> findExpandingConstant() {
+		HashMap<String, String> resultMap = new HashMap<String, String>();
+		for (Axiom a : expandAxoimtList) {
+		//for (Axiom a : axoimtList) {
+			String pred = a.getPredicate();
+			if (pred.contains(EQUALS_SYMBOL)) {
+				int loc = pred.indexOf(EQUALS_SYMBOL);
+				String id = pred.substring(0, loc).trim();
+				String type = pred.substring(pred.lastIndexOf(EQUALS_SYMBOL) + 1, pred.length());
+				resultMap.put(id, type.trim());
+			}
+		}
+		
+		return resultMap;
+	}
 
-	int getBranchingLastIndex(Guard guard) throws RodinDBException {
+	private int getBranchingLastIndex(Guard guard) throws RodinDBException {
 		String lastIndexS= "";
 		int lastIndex = 0;
 		String gStr = guard.getPredicate().trim();
@@ -583,8 +805,7 @@ public class TextToEMFParser extends AbstractTextParser {
 		// if not integer should be a constant
 		else {
 			loadAllAxoims();
-			//lastIndex = Integer.parseInt(findConstantValue(lastIndexS));
-			lastIndex = 3;
+			lastIndex = Integer.parseInt(findConstantValue(lastIndexS));
 		}
 		return lastIndex;
 	}

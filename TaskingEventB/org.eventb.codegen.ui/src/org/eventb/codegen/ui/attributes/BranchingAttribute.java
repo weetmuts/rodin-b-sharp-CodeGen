@@ -2,6 +2,7 @@ package org.eventb.codegen.ui.attributes;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eventb.codegen.ui.EventBCodeGenerationUI;
+import org.eventb.core.basis.Axiom;
 import org.eventb.core.basis.Guard;
 import org.eventb.internal.ui.eventbeditor.manipulation.IAttributeManipulation;
 import org.rodinp.core.IAttributeType;
@@ -15,7 +16,7 @@ public class BranchingAttribute implements IAttributeManipulation {
 	//	where the static objects cannot be loaded in due to cyclic dependencies.
 	public static IAttributeType.String BRANCHING_ATTRIBUTE = RodinCore.getStringAttrType(EventBCodeGenerationUI.PLUGIN_ID + ".branchingAttribute");
 	public static String SIMPLE = "Simple";
-	public static String BRANCHING = "Branching";
+	public static String BRANCHING = "Expanded";
 	public static String BRANCHING_NOT_SET = "--unset--";
 
 	@Override
@@ -25,6 +26,10 @@ public class BranchingAttribute implements IAttributeManipulation {
 		if (element instanceof Guard)
 		{
 			((Guard) element).setAttributeValue(BRANCHING_ATTRIBUTE, BRANCHING_NOT_SET, monitor);
+		}
+		else if (element instanceof Axiom)
+		{
+			((Axiom) element).setAttributeValue(BRANCHING_ATTRIBUTE, BRANCHING_NOT_SET, monitor);
 		}
 
 	}
@@ -36,6 +41,10 @@ public class BranchingAttribute implements IAttributeManipulation {
 		if (element instanceof Guard)
 		{
 			return ((Guard) element).hasAttribute(BRANCHING_ATTRIBUTE);
+		}
+		else if (element instanceof Axiom)
+		{
+			return ((Axiom) element).hasAttribute(BRANCHING_ATTRIBUTE);
 		}
 		
 		return false;
@@ -49,6 +58,10 @@ public class BranchingAttribute implements IAttributeManipulation {
 		{
 			return ((Guard) element).getAttributeValue(BRANCHING_ATTRIBUTE);
 		}
+		else if (element instanceof Axiom && ((Axiom) element).hasAttribute((BRANCHING_ATTRIBUTE)))
+		{
+			return ((Axiom) element).getAttributeValue(BRANCHING_ATTRIBUTE);
+		}
 
 		return null;
 	}
@@ -60,7 +73,11 @@ public class BranchingAttribute implements IAttributeManipulation {
 		if (element instanceof Guard)
 		{
 			((Guard) element).setAttributeValue(BRANCHING_ATTRIBUTE, value, monitor);
-		}		
+		}	
+		else if (element instanceof Axiom)
+		{
+			((Axiom) element).setAttributeValue(BRANCHING_ATTRIBUTE, value, monitor);
+		}
 	}
 
 	@Override
@@ -71,6 +88,10 @@ public class BranchingAttribute implements IAttributeManipulation {
 		{
 			((Guard) element).removeAttribute(BRANCHING_ATTRIBUTE, monitor);
 		}		
+		else if (element instanceof Axiom)
+		{
+			((Axiom) element).removeAttribute(BRANCHING_ATTRIBUTE, monitor);
+		}
 	}
 
 	@Override

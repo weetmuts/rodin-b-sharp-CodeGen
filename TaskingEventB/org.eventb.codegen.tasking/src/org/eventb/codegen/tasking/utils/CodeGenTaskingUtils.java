@@ -56,6 +56,8 @@ public final class CodeGenTaskingUtils {
 			.translate("BOOL");
 	public final static String UP_TO = RodinKeyboardPlugin.getDefault()
 			.translate("\\upto");
+	public final static String MAPS_TO = RodinKeyboardPlugin.getDefault()
+			.translate("\\mapsto");
 
 	public static MachineType getTaskType(final MachineImpl machine) {
 		if(machine == null){
